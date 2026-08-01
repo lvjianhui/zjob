@@ -1,0 +1,8 @@
+# 真职（Zjob）爬虫引擎依赖（Phase 1 占位）
+# 当前以手动/JSON 种子数据为主，爬虫仅做框架预留
+
+scrapy>=2.11
+playwright>=1.44
+python-dotenv>=1.0
+requests>=2.31
+pydantic>=2.7

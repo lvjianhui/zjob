@@ -1,0 +1,374 @@
+{
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.07.06.8",
+    "version_source": "skill-release-manifest.json",
+    "read_status": "ok"
+  },
+  "project": {
+    "resolvedLane": "library_bound",
+    "name": "zjob-mobile-design",
+    "path": "/Users/ljh/Desktop/Projects/Zjob/zjob-web-design",
+    "createdAt": "2026-08-01T00:00:00.000Z",
+    "sourceProjectLaneHeritage": "library_bound",
+    "validationRunDiscipline": {
+      "maxFullValidationRuns": 2,
+      "softWarningsTriggerRepair": false,
+      "blockingRepairMode": "targeted-once",
+      "forbiddenRepairTriggers": [
+        "soft-warning-only",
+        "provenance-warning-only",
+        "style-warning-only"
+      ]
+    },
+    "contextRequirementsLoaded": [
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/delivery-quality/page-rendering-quality-gate.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/delivery-quality/design-artifact-validation.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/delivery-quality/delivery-evidence-contract.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "/Users/ljh/.trae-cn/builtin/design/default/skills/solo-design/visual-experience/visual-experience-guidelines.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      }
+    ],
+    "designSource": {
+      "libraryIdentity": {
+        "name": "EmoteAgency-student",
+        "id": "PSSF_6U5.9TY6M",
+        "version": "2",
+        "scope": "custom-global",
+        "path": "/Users/ljh/.trae-cn/design_libraries/PSSF_6U5.9TY6M",
+        "versionSource": "metadata.json"
+      },
+      "cssPath": "/Users/ljh/Desktop/Projects/Zjob/zjob-web-design/colors_and_type.css",
+      "brandPrefix": null,
+      "actualTokenNameReference": [
+        "--background",
+        "--foreground",
+        "--card",
+        "--card-foreground",
+        "--popover",
+        "--popover-foreground",
+        "--primary",
+        "--primary-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--muted",
+        "--muted-foreground",
+        "--accent",
+        "--accent-foreground",
+        "--destructive",
+        "--destructive-foreground",
+        "--border",
+        "--input",
+        "--ring",
+        "--color-background",
+        "--color-foreground",
+        "--color-surface",
+        "--color-surface-dim",
+        "--color-surface-variant",
+        "--color-surface-container",
+        "--color-surface-container-low",
+        "--color-surface-container-high",
+        "--color-surface-container-highest",
+        "--color-card",
+        "--color-sidebar",
+        "--color-on-surface",
+        "--color-on-surface-variant",
+        "--color-muted-foreground",
+        "--color-primary",
+        "--color-primary-hover",
+        "--color-primary-container",
+        "--color-on-primary-container",
+        "--color-secondary",
+        "--color-secondary-container",
+        "--color-on-secondary-container",
+        "--color-error",
+        "--color-error-container",
+        "--color-on-error",
+        "--color-on-error-container",
+        "--color-outline",
+        "--color-outline-variant",
+        "--color-success",
+        "--color-warning",
+        "--color-info",
+        "--emote-sky-400",
+        "--emote-sky-500",
+        "--emote-sky-600",
+        "--emote-mint-400",
+        "--emote-mint-500",
+        "--emote-lavender-400",
+        "--emote-cream-400",
+        "--emote-rose-400",
+        "--emote-rose-500",
+        "--emote-charcoal-900",
+        "--font-display",
+        "--font-heading",
+        "--font-body",
+        "--font-family-base",
+        "--font-mono",
+        "--font-size-display",
+        "--font-size-h1",
+        "--font-size-h2",
+        "--font-size-h3",
+        "--font-size-h4",
+        "--font-size-lead",
+        "--font-size-body",
+        "--font-size-caption",
+        "--font-size-eyebrow",
+        "--font-size-mono",
+        "--font-weight-display",
+        "--font-weight-h1",
+        "--font-weight-h2",
+        "--font-weight-h3",
+        "--font-weight-h4",
+        "--font-weight-body",
+        "--font-weight-lead",
+        "--font-weight-caption",
+        "--font-weight-eyebrow",
+        "--font-weight-mono",
+        "--line-height-display",
+        "--line-height-h1",
+        "--line-height-h2",
+        "--line-height-h3",
+        "--line-height-h4",
+        "--line-height-body",
+        "--line-height-lead",
+        "--line-height-caption",
+        "--line-height-eyebrow",
+        "--line-height-mono",
+        "--shadow-1",
+        "--shadow-2",
+        "--shadow-3",
+        "--shadow-4",
+        "--radius-sm",
+        "--radius-md",
+        "--radius-lg",
+        "--radius-xl",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--space-6",
+        "--space-8",
+        "--space-10",
+        "--size-icon-sm",
+        "--size-icon-md",
+        "--size-icon-lg",
+        "--size-touch-target",
+        "--size-button-height",
+        "--max-content-width",
+        "--gutter-screen"
+      ],
+      "tokenFidelity": "strict",
+      "componentPlan": [],
+      "forbiddenInventedComponents": [],
+      "allowedComponents": [],
+      "designDecisionSummary": "EmoteAgency-student library: clean, friendly, rounded UI with Nunito typeface. Neutral charcoal (#18181b) as primary foreground, white surfaces, sky/mint/lavender/cream/rose as accent/status tints. 12-16px radius, soft shadows, mobile-first max-content-width 430px."
+    },
+    "sharedProjectShellContract": {
+      "header": {
+        "style": "top app bar, white background, charcoal logo/text, subtle bottom border",
+        "navItems": [
+          "搜索",
+          "对比",
+          "后台"
+        ]
+      },
+      "footer": {
+        "style": "simple footer with copyright and links"
+      },
+      "primaryColor": "charcoal #18181b",
+      "surfaceColor": "white #ffffff",
+      "typeStack": "Nunito, system-ui, sans-serif",
+      "radiusScale": "sm 8px, md 12px, lg 16px, xl 24px",
+      "shadowModel": "subtle shadow-1/2 for cards, shadow-3 for floating layers",
+      "ctaStyle": "solid charcoal pill or rounded button with white text"
+    },
+    "pages": [
+      {
+        "nodeId": "page-index",
+        "name": "搜索首页",
+        "htmlSrc": "pages/index.html",
+        "title": "真职 Zjob - 公司搜索",
+        "deviceType": "mobile",
+        "viewportMode": "document-scroll",
+        "pageType": "task-driven",
+        "qualityRisks": [
+          "search-box prominence",
+          "mobile density"
+        ],
+        "componentPlan": []
+      },
+      {
+        "nodeId": "page-company-detail",
+        "name": "公司详情",
+        "htmlSrc": "pages/company-detail.html",
+        "title": "特斯拉（上海）- 真职 Zjob",
+        "deviceType": "mobile",
+        "viewportMode": "document-scroll",
+        "pageType": "information-dense",
+        "qualityRisks": [
+          "dense dimension cards",
+          "mobile readability"
+        ],
+        "componentPlan": []
+      },
+      {
+        "nodeId": "page-compare",
+        "name": "公司对比",
+        "htmlSrc": "pages/compare.html",
+        "title": "公司对比 - 真职 Zjob",
+        "deviceType": "mobile",
+        "viewportMode": "document-scroll",
+        "pageType": "information-dense",
+        "qualityRisks": [
+          "comparison table overflow",
+          "mobile density"
+        ],
+        "componentPlan": []
+      }
+    ],
+    "dispatchPreflightManifest": [
+      {
+        "nodeId": "page-index",
+        "packetType": "LibraryBoundPagePacket",
+        "allowedWritePaths": [
+          "pages/index.html"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "imagesGeneratedBySubAgent": false
+        }
+      },
+      {
+        "nodeId": "page-company-detail",
+        "packetType": "LibraryBoundPagePacket",
+        "allowedWritePaths": [
+          "pages/company-detail.html"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "imagesGeneratedBySubAgent": false
+        }
+      },
+      {
+        "nodeId": "page-compare",
+        "packetType": "LibraryBoundPagePacket",
+        "allowedWritePaths": [
+          "pages/compare.html"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "imagesGeneratedBySubAgent": false
+        }
+      }
+    ],
+    "expectedDispatches": [
+      {
+        "nodeId": "page-index",
+        "packetType": "LibraryBoundPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/index.html"
+        ],
+        "htmlSrc": "pages/index.html",
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "page-index",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        }
+      },
+      {
+        "nodeId": "page-company-detail",
+        "packetType": "LibraryBoundPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/company-detail.html"
+        ],
+        "htmlSrc": "pages/company-detail.html",
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "page-company-detail",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        }
+      },
+      {
+        "nodeId": "page-compare",
+        "packetType": "LibraryBoundPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/compare.html"
+        ],
+        "htmlSrc": "pages/compare.html",
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "page-compare",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        }
+      }
+    ],
+    "validationHistory": [],
+    "validationRepairLedger": [],
+    "repairEntryEvidence": [
+      {
+        "failedReportPath": "validation-report.json",
+        "failedReportHash": "aa78ff417d7e508e9b98958bb3d48a6613151d0c5203b597d62c9b4b29d75149",
+        "repairWorkflowReadPath": "intent-workflows/intent-project-mutation/main-agent-repair-workflow.md",
+        "repairStartedAt": "2026-08-01T10:13:45.861Z",
+        "ledgerIndex": 0,
+        "ownerTriageCount": 8,
+        "repairActionCount": 0,
+        "revalidationReportPath": null,
+        "revalidationReportHash": null,
+        "revalidationSuccess": null
+      }
+    ],
+    "mainAgentPostDispatchMutations": []
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "data": [
+    {
+      "id": "page-index",
+      "type": "page",
+      "name": "搜索首页",
+      "title": "真职 Zjob - 公司搜索",
+      "version": 1,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "createdAt": 1785580374868,
+      "devMetadata": {
+        "htmlSrc": "pages/index.html",
+        "interactions": [
+          {
+            "domId": "index-search-box",
+            "targetPageId": "page-company-detail"
+          },
+          {
+            "domId": "index-company-card-tesla",
+            "targetPageId": "page-company-detail"
+          },
+          {
+            "domId": "index-compare-link",
+            "targetPageId": "page-compare"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-company-detail",
+      "type": "page",
+      "name": "公司详情",
+      "title": "特斯拉（上海）- 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 620,
+        "y": 0,
+        "group": 0
+      },
+      "createdAt": 1785580374868,
+      "devMetadata": {
+        "htmlSrc": "pages/company-detail.html",
+        "interactions": [
+          {
+            "domId": "detail-back",
+            "targetPageId": "page-index"
+          },
+          {
+            "domId": "detail-compare-btn",
+            "targetPageId": "page-compare"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-compare",
+      "type": "page",
+      "name": "公司对比",
+      "title": "公司对比 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 620,
+        "y": 1025,
+        "group": 0
+      },
+      "createdAt": 1785580374868,
+      "devMetadata": {
+        "htmlSrc": "pages/compare.html",
+        "interactions": [
+          {
+            "domId": "compare-back",
+            "targetPageId": "page-index"
+          },
+          {
+            "domId": "compare-detail-tesla",
+            "targetPageId": "page-company-detail"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "designLibrary": {
+      "name": "EmoteAgency-student",
+      "id": "PSSF_6U5.9TY6M",
+      "version": "2",
+      "scope": "custom-global",
+      "path": "/Users/ljh/.trae-cn/design_libraries/PSSF_6U5.9TY6M",
+      "versionSource": "metadata.json"
+    }
+  }
+}

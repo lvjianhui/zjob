@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公司对比 - 真职 Zjob</title>
+    <style id="theme-vars">
+:root {
+  --emote-sky-900: #0c4a6e;
+  --emote-sky-800: #075985;
+  --emote-sky-700: #0369a1;
+  --emote-sky-600: #0284c7;
+  --emote-sky-500: #0ea5e9;
+  --emote-sky-400: #38bdf8;
+  --emote-sky-300: #7dd3fc;
+  --emote-sky-200: #bae6fd;
+  --emote-sky-100: #e0f2fe;
+  --emote-sky-50: #f0f9ff;
+  --emote-mint-900: #14532d;
+  --emote-mint-800: #166534;
+  --emote-mint-700: #15803d;
+  --emote-mint-600: #16a34a;
+  --emote-mint-500: #22c55e;
+  --emote-mint-400: #4ade80;
+  --emote-mint-300: #86efac;
+  --emote-mint-200: #bbf7d0;
+  --emote-mint-100: #dcfce7;
+  --emote-mint-50: #f0fdf4;
+  --emote-lavender-900: #581c87;
+  --emote-lavender-800: #6b21a8;
+  --emote-lavender-700: #7e22ce;
+  --emote-lavender-600: #9333ea;
+  --emote-lavender-500: #a855f7;
+  --emote-lavender-400: #c084fc;
+  --emote-lavender-300: #d8b4fe;
+  --emote-lavender-200: #e9d5ff;
+  --emote-lavender-100: #f3e8ff;
+  --emote-lavender-50: #faf5ff;
+  --emote-cream-900: #78350f;
+  --emote-cream-800: #92400e;
+  --emote-cream-700: #b45309;
+  --emote-cream-600: #d97706;
+  --emote-cream-500: #f59e0b;
+  --emote-cream-400: #fbbf24;
+  --emote-cream-300: #fcd34d;
+  --emote-cream-200: #fde68a;
+  --emote-cream-100: #fef3c7;
+  --emote-cream-50: #fffbeb;
+  --surface-dim: #18181b;
+  --muted: #2a2a2f;
+  --surface-container-high: #414149;
+  --surface-container-highest: #55555e;
+  --ring: #38bdf8;
+  --primary: #ffffff;
+  --background: #ffffff;
+  --surface: #ffffff;
+  --inverse-surface: #ffffff;
+  --on-error: #ffffff;
+  --emote-charcoal-900: #18181b;
+  --emote-charcoal-800: #2a2a2f;
+  --emote-charcoal-700: #414149;
+  --emote-charcoal-600: #55555e;
+  --emote-charcoal-500: #72727d;
+  --emote-charcoal-400: #9898a0;
+  --emote-charcoal-300: #bdbdc2;
+  --emote-charcoal-200: #dfdfe2;
+  --emote-charcoal-100: #efeff1;
+  --emote-charcoal-50: #f7f7f8;
+  --emote-rose-900: #881337;
+  --emote-rose-800: #9f1239;
+  --emote-rose-700: #be123c;
+  --emote-rose-600: #e11d48;
+  --emote-rose-500: #f43f5e;
+  --emote-rose-400: #fb7185;
+  --emote-rose-300: #fda4af;
+  --emote-rose-200: #fecdd3;
+  --emote-rose-100: #ffe4e6;
+  --emote-rose-50: #fff1f2;
+  --border: #dfdfe2;
+  --color-border: #dfdfe2;
+  --bg: #ffffff;
+  --color-on-primary: #ffffff;
+  --accent: #18181b;
+  --accent-hover: #2a2a2f;
+  --fg: #18181b;
+  --rule: #dfdfe2;
+  --link: #0284c7;
+  --color-background: #ffffff;
+  --color-foreground: #18181b;
+  --color-surface: #ffffff;
+  --color-surface-dim: #efeff1;
+  --color-surface-variant: #dfdfe2;
+  --color-surface-container: #efeff1;
+  --color-surface-container-low: #f7f7f8;
+  --color-surface-container-high: #dfdfe2;
+  --color-surface-container-highest: #bdbdc2;
+  --color-card: #ffffff;
+  --color-sidebar: #f7f7f8;
+  --color-on-surface: #18181b;
+  --color-on-surface-variant: #72727d;
+  --color-muted-foreground: #72727d;
+  --color-primary: #18181b;
+  --color-primary-hover: #2a2a2f;
+  --color-primary-container: #f7f7f8;
+  --color-on-primary-container: #18181b;
+  --color-secondary: #efeff1;
+  --color-secondary-container: #efeff1;
+  --color-on-secondary-container: #2a2a2f;
+  --color-error: #e11d48;
+  --color-error-container: #fff1f2;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #881337;
+  --color-outline: #dfdfe2;
+  --color-outline-variant: #efeff1;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-info: #0284c7;
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
+  --card: var(--color-card);
+  --card-foreground: var(--color-on-surface);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-on-surface);
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-on-primary);
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-on-secondary-container);
+  --muted: var(--color-surface-variant);
+  --muted-foreground: var(--color-muted-foreground);
+  --accent: var(--color-primary-container);
+  --accent-foreground: var(--color-on-primary-container);
+  --destructive: var(--color-error);
+  --destructive-foreground: var(--color-on-error);
+  --border: var(--color-border);
+  --input: var(--color-outline);
+  --ring: var(--color-primary);
+  --font-display: 'Nunito', sans-serif;
+  --font-heading: 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-mono: 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  --font-family-base: 'Nunito', sans-serif;
+  --font-size-display: 40px;
+  --font-size-h1: 32px;
+  --font-size-h2: 28px;
+  --font-size-h3: 22px;
+  --font-size-h4: 18px;
+  --font-size-lead: 18px;
+  --font-size-body: 16px;
+  --font-size-caption: 12px;
+  --font-size-eyebrow: 11px;
+  --font-size-mono: 14px;
+  --font-weight-display: 700;
+  --font-weight-h1: 700;
+  --font-weight-h2: 600;
+  --font-weight-h3: 600;
+  --font-weight-h4: 600;
+  --font-weight-body: 400;
+  --font-weight-lead: 400;
+  --font-weight-caption: 400;
+  --font-weight-eyebrow: 600;
+  --font-weight-mono: 400;
+  --line-height-display: 1.1;
+  --line-height-h1: 1.2;
+  --line-height-h2: 1.25;
+  --line-height-h3: 1.3;
+  --line-height-h4: 1.4;
+  --line-height-body: 1.6;
+  --line-height-lead: 1.7;
+  --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4;
+  --line-height-mono: 1.6;
+  --shadow-1·Card: 0px 1px 2px 0px rgba(24, 24, 27, 0.06);
+  --shadow-2·Card Hover: 0px 4px 8px -2px rgba(24, 24, 27, 0.08);
+  --shadow-3·Float: 0px 8px 24px -8px rgba(24, 24, 27, 0.12);
+  --shadow-4·Modal: 0px 16px 40px -12px rgba(24, 24, 27, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+  --space-13: 52px;
+  --space-14: 56px;
+  --space-15: 60px;
+  --space-16: 64px;
+  --size-icon-sm: 16px;
+  --size-icon-md: 24px;
+  --size-icon-lg: 32px;
+  --size-icon-xl: 40px;
+  --size-touch-target: 44px;
+  --size-button-height: 48px;
+  --size-app-header: 56px;
+  --size-tab-bar: 64px;
+  --max-content-width: 430px;
+  --gutter-screen: 16px;
+  --nav-height: 56px;
+  --size-button-pill-height: 44px;
+  --size-input-height: 48px;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-sidebar: var(--color-sidebar);
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius-lg);
+    --radius-xl: var(--radius-xl);
+  }
+  @layer base {
+    body { background: var(--color-background); color: var(--color-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--background); }
+      .text-background { color: var(--background); }
+      .border-background { border-color: var(--background); }
+      .ring-background { --tw-ring-color: var(--background); }
+      .bg-foreground { background-color: var(--foreground); }
+      .text-foreground { color: var(--foreground); }
+      .border-foreground { border-color: var(--foreground); }
+      .ring-foreground { --tw-ring-color: var(--foreground); }
+      .bg-card { background-color: var(--card); }
+      .text-card { color: var(--card); }
+      .border-card { border-color: var(--card); }
+      .ring-card { --tw-ring-color: var(--card); }
+      .bg-card-foreground { background-color: var(--card-foreground); }
+      .text-card-foreground { color: var(--card-foreground); }
+      .border-card-foreground { border-color: var(--card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--card-foreground); }
+      .bg-popover { background-color: var(--popover); }
+      .text-popover { color: var(--popover); }
+      .border-popover { border-color: var(--popover); }
+      .ring-popover { --tw-ring-color: var(--popover); }
+      .bg-popover-foreground { background-color: var(--popover-foreground); }
+      .text-popover-foreground { color: var(--popover-foreground); }
+      .border-popover-foreground { border-color: var(--popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--popover-foreground); }
+      .bg-primary { background-color: var(--primary); }
+      .text-primary { color: var(--primary); }
+      .border-primary { border-color: var(--primary); }
+      .ring-primary { --tw-ring-color: var(--primary); }
+      .bg-primary-foreground { background-color: var(--primary-foreground); }
+      .text-primary-foreground { color: var(--primary-foreground); }
+      .border-primary-foreground { border-color: var(--primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--primary-foreground); }
+      .bg-secondary { background-color: var(--secondary); }
+      .text-secondary { color: var(--secondary); }
+      .border-secondary { border-color: var(--secondary); }
+      .ring-secondary { --tw-ring-color: var(--secondary); }
+      .bg-secondary-foreground { background-color: var(--secondary-foreground); }
+      .text-secondary-foreground { color: var(--secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--secondary-foreground); }
+      .bg-muted { background-color: var(--muted); }
+      .text-muted { color: var(--muted); }
+      .border-muted { border-color: var(--muted); }
+      .ring-muted { --tw-ring-color: var(--muted); }
+      .bg-muted-foreground { background-color: var(--muted-foreground); }
+      .text-muted-foreground { color: var(--muted-foreground); }
+      .border-muted-foreground { border-color: var(--muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--muted-foreground); }
+      .bg-accent { background-color: var(--accent); }
+      .text-accent { color: var(--accent); }
+      .border-accent { border-color: var(--accent); }
+      .ring-accent { --tw-ring-color: var(--accent); }
+      .bg-accent-foreground { background-color: var(--accent-foreground); }
+      .text-accent-foreground { color: var(--accent-foreground); }
+      .border-accent-foreground { border-color: var(--accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--accent-foreground); }
+      .bg-destructive { background-color: var(--destructive); }
+      .text-destructive { color: var(--destructive); }
+      .border-destructive { border-color: var(--destructive); }
+      .ring-destructive { --tw-ring-color: var(--destructive); }
+      .bg-destructive-foreground { background-color: var(--destructive-foreground); }
+      .text-destructive-foreground { color: var(--destructive-foreground); }
+      .border-destructive-foreground { border-color: var(--destructive-foreground); }
+      .ring-destructive-foreground { --tw-ring-color: var(--destructive-foreground); }
+      .bg-border { background-color: var(--border); }
+      .text-border { color: var(--border); }
+      .border-border { border-color: var(--border); }
+      .ring-border { --tw-ring-color: var(--border); }
+      .bg-input { background-color: var(--input); }
+      .text-input { color: var(--input); }
+      .border-input { border-color: var(--input); }
+      .ring-input { --tw-ring-color: var(--input); }
+      .bg-ring { background-color: var(--ring); }
+      .text-ring { color: var(--ring); }
+      .border-ring { border-color: var(--ring); }
+      .ring-ring { --tw-ring-color: var(--ring); }
+      .bg-sidebar { background-color: var(--color-sidebar); }
+      .text-sidebar { color: var(--color-sidebar); }
+      .border-sidebar { border-color: var(--color-sidebar); }
+      .ring-sidebar { --tw-ring-color: var(--color-sidebar); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main data-node-id="page-compare" class="min-h-screen bg-background text-foreground" style="font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif;">
+      <!-- Top bar -->
+      <div class="sticky top-0 z-20 bg-background/95 backdrop-blur border-b border-border">
+        <div class="max-w-[960px] mx-auto px-4 h-14 flex items-center justify-between">
+          <a href="./search.html" data-dom-id="compare-back" class="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-[var(--emote-sky-600)] transition-colors">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>返回搜索</span>
+          </a>
+          <button data-dom-id="compare-add-company" type="button" class="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 h-10 text-sm font-semibold hover:bg-primary/90 transition-colors shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)]">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>添加公司</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="max-w-[960px] mx-auto px-4 py-6 space-y-8">
+        <!-- Page title -->
+        <div>
+          <h1 class="text-[28px] font-bold leading-tight tracking-tight text-foreground">公司对比</h1>
+          <p class="mt-1 text-sm text-muted-foreground">已选 3 家公司横向对比，数据来自平台真实面试与在职反馈</p>
+        </div>
+
+        <!-- Selected company header row -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-4" aria-label="已选公司">
+          <article class="rounded-xl border border-border bg-card p-4 shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)] hover:shadow-[0px_4px_8px_-2px_rgba(24,24,27,0.08)] transition-shadow" data-dom-id="compare-detail-tesla">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-foreground">特斯拉（上海）</h2>
+                <p class="text-xs text-muted-foreground mt-0.5">汽车制造 / 新能源</p>
+              </div>
+              <button type="button" class="inline-flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" aria-label="删除特斯拉">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+              <span class="text-3xl font-extrabold text-foreground">8.7</span>
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background-color: var(--emote-mint-100); color: var(--emote-mint-700);">综合评分</span>
+            </div>
+          </article>
+
+          <article class="rounded-xl border border-border bg-card p-4 shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)] hover:shadow-[0px_4px_8px_-2px_rgba(24,24,27,0.08)] transition-shadow">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-foreground">立讯精密</h2>
+                <p class="text-xs text-muted-foreground mt-0.5">电子制造 / 消费电子</p>
+              </div>
+              <button data-dom-id="compare-remove-luxshare" type="button" class="inline-flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" aria-label="删除立讯精密">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+              <span class="text-3xl font-extrabold text-foreground">7.2</span>
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background-color: var(--emote-cream-100); color: var(--emote-cream-700);">综合评分</span>
+            </div>
+          </article>
+
+          <article class="rounded-xl border border-border bg-card p-4 shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)] hover:shadow-[0px_4px_8px_-2px_rgba(24,24,27,0.08)] transition-shadow">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-foreground">达能</h2>
+                <p class="text-xs text-muted-foreground mt-0.5">快消 / 食品饮料</p>
+              </div>
+              <button data-dom-id="compare-remove-danone" type="button" class="inline-flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors" aria-label="删除达能">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+              <span class="text-3xl font-extrabold text-foreground">7.9</span>
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background-color: var(--emote-sky-100); color: var(--emote-sky-700);">综合评分</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Six-dimension comparison table -->
+        <section class="rounded-xl border border-border bg-card overflow-hidden shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)]" aria-label="六维度对比">
+          <div class="px-4 py-3 border-b border-border bg-secondary/50">
+            <h3 class="text-base font-semibold text-foreground">六维度逐项对比</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table data-dom-id="compare-table" class="w-full text-sm">
+              <thead>
+                <tr class="bg-secondary/30">
+                  <th class="text-left px-4 py-3 font-semibold text-foreground w-[140px]">维度</th>
+                  <th class="text-center px-4 py-3 font-semibold text-foreground min-w-[140px]">特斯拉（上海）</th>
+                  <th class="text-center px-4 py-3 font-semibold text-foreground min-w-[140px]">立讯精密</th>
+                  <th class="text-center px-4 py-3 font-semibold text-foreground min-w-[140px]">达能</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border">
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">薪酬竞争力</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">9.1</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.0</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.4</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">福利保障</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.5</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-rose-500);"></span>
+                      <span class="font-semibold">6.2</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.8</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">成长空间</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.9</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.3</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.6</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">工作节奏</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-rose-500);"></span>
+                      <span class="font-semibold">6.4</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-rose-500);"></span>
+                      <span class="font-semibold">6.0</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.2</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">稳定性</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.5</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.1</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.0</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-foreground">企业文化</td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-cream-500);"></span>
+                      <span class="font-semibold">7.8</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-rose-500);"></span>
+                      <span class="font-semibold">6.5</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <div class="inline-flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" style="background-color: var(--emote-mint-500);"></span>
+                      <span class="font-semibold">8.3</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Real hourly wage comparison -->
+        <section class="rounded-xl border border-border bg-card p-4 shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)]" aria-label="真实时薪对比">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="banknote" class="w-5 h-5 text-muted-foreground"></i>
+            <h3 class="text-base font-semibold text-foreground">真实时薪对比</h3>
+          </div>
+          <div class="grid grid-cols-3 gap-4 items-end h-40">
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-sm font-bold text-foreground">¥52</span>
+              <div class="w-12 rounded-t-lg" style="height: 100%; background-color: var(--emote-mint-500);"></div>
+              <span class="text-xs text-muted-foreground text-center">特斯拉</span>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-sm font-bold text-foreground">¥31</span>
+              <div class="w-12 rounded-t-lg" style="height: 60%; background-color: var(--emote-cream-500);"></div>
+              <span class="text-xs text-muted-foreground text-center">立讯精密</span>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+              <span class="text-sm font-bold text-foreground">¥38</span>
+              <div class="w-12 rounded-t-lg" style="height: 73%; background-color: var(--emote-sky-400);"></div>
+              <span class="text-xs text-muted-foreground text-center">达能</span>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-muted-foreground">* 时薪按样本岗位月平均收入与每周估算工时折算，仅供参考。</p>
+        </section>
+
+        <!-- Radar chart placeholder using six progress bars -->
+        <section class="rounded-xl border border-border bg-card p-4 shadow-[0px_1px_2px_0px_rgba(24,24,27,0.06)]" aria-label="综合雷达图">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="radar" class="w-5 h-5 text-muted-foreground"></i>
+            <h3 class="text-base font-semibold text-foreground">综合雷达图</h3>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">薪酬竞争力</span>
+                <span class="text-muted-foreground">7.8</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-mint-500); width: 78%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">福利保障</span>
+                <span class="text-muted-foreground">7.5</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-sky-400); width: 75%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">成长空间</span>
+                <span class="text-muted-foreground">7.9</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-mint-500); width: 79%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">工作节奏</span>
+                <span class="text-muted-foreground">6.9</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-cream-500); width: 69%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">稳定性</span>
+                <span class="text-muted-foreground">7.9</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-mint-500); width: 79%;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="font-medium text-foreground">企业文化</span>
+                <span class="text-muted-foreground">7.5</span>
+              </div>
+              <div class="h-2 rounded-full bg-secondary overflow-hidden">
+                <div class="h-full rounded-full" style="background-color: var(--emote-sky-400); width: 75%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Conclusion summary -->
+        <section class="rounded-xl border border-border bg-secondary/40 p-4" aria-label="结论摘要">
+          <div class="flex items-start gap-3">
+            <i data-lucide="lightbulb" class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--emote-cream-500);"></i>
+            <div>
+              <h3 class="text-base font-semibold text-foreground">结论摘要</h3>
+              <p class="mt-1 text-sm leading-relaxed text-foreground/90">
+                特斯拉综合最优，但工作节奏偏紧；立讯精密薪酬竞争力中等；达能福利保障突出。
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-12 border-t border-border bg-background">
+        <div class="max-w-[960px] mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <p>真职 Zjob · 让每一份工作都值得期待</p>
+          <p>数据更新于 2026-08-01</p>
+        </div>
+      </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+# =================================----------
+# 真职（Zjob）.gitignore
+# =================================----------
+
+# ---- 环境变量与密钥（切勿提交）----
+.env
+.env.*
+!.env.example
+!.env.production.example
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.production.example
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.mypy_cache/
+.ruff_cache/
+
+# ---- Node.js ----
+node_modules/
+.next/
+out/
+build/
+.npm
+.pnpm-store/
+*.tsbuildinfo
+.vercel
+
+# ---- 数据库 ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- IDE / 编辑器 ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- Docker ----
+.docker/
+
+# ---- 日志 ----
+*.log
+logs/
+
+# ---- 爬虫临时文件 ----
+crawler/data/
+crawler/output/
+
+# ---- WorkBuddy agent 本地数据 ----
+.workbuddy/

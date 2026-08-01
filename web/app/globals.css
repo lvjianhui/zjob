@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Emote 原始色阶 */
+  --emote-sky-50: #f0f9ff;
+  --emote-sky-100: #e0f2fe;
+  --emote-sky-200: #bae6fd;
+  --emote-sky-300: #7dd3fc;
+  --emote-sky-400: #38bdf8;
+  --emote-sky-500: #0ea5e9;
+  --emote-sky-600: #0284c7;
+  --emote-sky-700: #0369a1;
+  --emote-sky-800: #075985;
+  --emote-sky-900: #0c4a6e;
+
+  --emote-mint-50: #f0fdf4;
+  --emote-mint-100: #dcfce7;
+  --emote-mint-200: #bbf7d0;
+  --emote-mint-300: #86efac;
+  --emote-mint-400: #4ade80;
+  --emote-mint-500: #22c55e;
+  --emote-mint-600: #16a34a;
+  --emote-mint-700: #15803d;
+  --emote-mint-800: #166534;
+  --emote-mint-900: #14532d;
+
+  --emote-lavender-50: #faf5ff;
+  --emote-lavender-100: #f3e8ff;
+  --emote-lavender-200: #e9d5ff;
+  --emote-lavender-300: #d8b4fe;
+  --emote-lavender-400: #c084fc;
+  --emote-lavender-500: #a855f7;
+  --emote-lavender-600: #9333ea;
+  --emote-lavender-700: #7e22ce;
+  --emote-lavender-800: #6b21a8;
+  --emote-lavender-900: #581c87;
+
+  --emote-cream-50: #fffbeb;
+  --emote-cream-100: #fef3c7;
+  --emote-cream-200: #fde68a;
+  --emote-cream-300: #fcd34d;
+  --emote-cream-400: #fbbf24;
+  --emote-cream-500: #f59e0b;
+  --emote-cream-600: #d97706;
+  --emote-cream-700: #b45309;
+  --emote-cream-800: #92400e;
+  --emote-cream-900: #78350f;
+
+  --emote-charcoal-50: #f7f7f8;
+  --emote-charcoal-100: #efeff1;
+  --emote-charcoal-200: #dfdfe2;
+  --emote-charcoal-300: #bdbdc2;
+  --emote-charcoal-400: #9898a0;
+  --emote-charcoal-500: #72727d;
+  --emote-charcoal-600: #55555e;
+  --emote-charcoal-700: #414149;
+  --emote-charcoal-800: #2a2a2f;
+  --emote-charcoal-900: #18181b;
+
+  --emote-rose-50: #fff1f2;
+  --emote-rose-100: #ffe4e6;
+  --emote-rose-200: #fecdd3;
+  --emote-rose-300: #fda4af;
+  --emote-rose-400: #fb7185;
+  --emote-rose-500: #f43f5e;
+  --emote-rose-600: #e11d48;
+  --emote-rose-700: #be123c;
+  --emote-rose-800: #9f1239;
+  --emote-rose-900: #881337;
+
+  /* 语义 token */
+  --color-background: #ffffff;
+  --color-foreground: #18181b;
+  --color-surface: #ffffff;
+  --color-surface-dim: #efeff1;
+  --color-surface-variant: #dfdfe2;
+  --color-surface-container: #efeff1;
+  --color-surface-container-low: #f7f7f8;
+  --color-surface-container-high: #dfdfe2;
+  --color-surface-container-highest: #bdbdc2;
+  --color-card: #ffffff;
+  --color-sidebar: #f7f7f8;
+  --color-on-surface: #18181b;
+  --color-on-surface-variant: #72727d;
+  --color-muted-foreground: #72727d;
+  --color-primary: #18181b;
+  --color-primary-hover: #2a2a2f;
+  --color-primary-container: #f7f7f8;
+  --color-on-primary-container: #18181b;
+  --color-secondary: #efeff1;
+  --color-secondary-container: #efeff1;
+  --color-on-secondary-container: #2a2a2f;
+  --color-error: #e11d48;
+  --color-error-container: #fff1f2;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #881337;
+  --color-outline: #dfdfe2;
+  --color-outline-variant: #efeff1;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-info: #0284c7;
+  --color-border: #dfdfe2;
+
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
+  --card: var(--color-card);
+  --card-foreground: var(--color-on-surface);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-on-surface);
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-on-primary, #ffffff);
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-on-secondary-container);
+  --muted: var(--color-surface-variant);
+  --muted-foreground: var(--color-muted-foreground);
+  --accent: var(--color-primary-container);
+  --accent-foreground: var(--color-on-primary-container);
+  --destructive: var(--color-error);
+  --destructive-foreground: var(--color-on-error);
+  --border: var(--color-border);
+  --input: var(--color-outline);
+  --ring: var(--color-primary);
+
+  /* 字体 */
+  --font-display: "Nunito", sans-serif;
+  --font-heading: "Nunito", sans-serif;
+  --font-body: "Nunito", sans-serif;
+  --font-family-base: "Nunito", sans-serif;
+
+  /* 阴影 */
+  --shadow-card: 0px 1px 2px 0px rgba(24, 24, 27, 0.06);
+  --shadow-card-hover: 0px 4px 8px -2px rgba(24, 24, 27, 0.08);
+  --shadow-float: 0px 8px 24px -8px rgba(24, 24, 27, 0.12);
+  --shadow-modal: 0px 16px 40px -12px rgba(24, 24, 27, 0.16);
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* 尺寸 */
+  --size-input-height: 48px;
+  --size-button-height: 48px;
+  --size-app-header: 56px;
+  --nav-height: 56px;
+  --gutter-screen: 16px;
+}
+
+@layer base {
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    min-height: 100vh;
+    font-family: var(--font-family-base), "PingFang SC", "Microsoft YaHei",
+      sans-serif;
+  }
+  td,
+  th {
+    word-break: break-word;
+  }
+  th {
+    white-space: nowrap;
+  }
+}
+
+/* Recharts tooltip fix for SSR */
+.recharts-wrapper {
+  position: relative;
+  cursor: default;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

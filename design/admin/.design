@@ -1,0 +1,172 @@
+{
+  "data": [
+    {
+      "id": "page-admin-login",
+      "type": "page",
+      "name": "后台登录",
+      "title": "后台登录 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-dc6ab386",
+          "measuredAt": 1785583266650
+        }
+      },
+      "createdAt": 1785580374872,
+      "devMetadata": {
+        "htmlSrc": "pages/admin-login.html",
+        "interactions": [
+          {
+            "domId": "login-submit",
+            "targetPageId": "page-admin-dashboard"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-dashboard",
+      "type": "page",
+      "name": "后台概览",
+      "title": "后台概览 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 320,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1128,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-0aff77ea",
+          "measuredAt": 1785583266650
+        }
+      },
+      "createdAt": 1785580374872,
+      "devMetadata": {
+        "htmlSrc": "pages/admin-dashboard.html",
+        "interactions": [
+          {
+            "domId": "dash-companies",
+            "targetPageId": "page-admin-companies"
+          },
+          {
+            "domId": "dash-reviews",
+            "targetPageId": "page-admin-reviews"
+          },
+          {
+            "domId": "dash-logout",
+            "targetPageId": "page-admin-login"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-companies",
+      "type": "page",
+      "name": "公司管理",
+      "title": "公司管理 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 732,
+        "y": 197.5,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-8ef4b047",
+          "measuredAt": 1785583266650
+        }
+      },
+      "createdAt": 1785580374872,
+      "devMetadata": {
+        "htmlSrc": "pages/admin-companies.html",
+        "interactions": [
+          {
+            "domId": "companies-edit-tesla",
+            "targetPageId": "page-admin-company-edit"
+          },
+          {
+            "domId": "companies-add",
+            "targetPageId": "page-admin-company-edit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-company-edit",
+      "type": "page",
+      "name": "编辑公司",
+      "title": "编辑公司 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 0,
+        "y": 520,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 3011,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-399c23e9",
+          "measuredAt": 1785583266650
+        }
+      },
+      "createdAt": 1785580374872,
+      "devMetadata": {
+        "htmlSrc": "pages/admin-company-edit.html",
+        "interactions": [
+          {
+            "domId": "company-edit-cancel",
+            "targetPageId": "page-admin-companies"
+          },
+          {
+            "domId": "company-edit-save",
+            "targetPageId": "page-admin-companies"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-reviews",
+      "type": "page",
+      "name": "口碑管理",
+      "title": "口碑审核 - 真职 Zjob",
+      "version": 1,
+      "canvasData": {
+        "x": 480,
+        "y": 540,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 964,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-52548175",
+          "measuredAt": 1785583266650
+        }
+      },
+      "createdAt": 1785580374872,
+      "devMetadata": {
+        "htmlSrc": "pages/admin-reviews.html",
+        "interactions": []
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": false,
+    "deviceType": "desktop",
+    "designLibrary": {
+      "name": "EmoteAgency-student",
+      "id": "PSSF_6U5.9TY6M",
+      "version": "2",
+      "scope": "custom-global",
+      "path": "/Users/ljh/.trae-cn/design_libraries/PSSF_6U5.9TY6M",
+      "versionSource": "metadata.json"
+    }
+  }
+}

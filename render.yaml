@@ -1,0 +1,38 @@
+# Render Blueprint — 真职（Zjob）后端部署配置
+# 文档: https://render.com/docs/blueprint-spec
+#
+# 使用方式:
+#   1. 在 Render Dashboard → New → Blueprint
+#   2. 连接 GitHub 仓库，Render 会自动读取此文件
+#   3. 在 Render 控制台填写标记为 sync: false 的敏感变量
+
+services:
+  - type: web
+    name: zjob-api
+    env: docker
+    region: singapore
+    plan: free
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+        # 值示例: postgresql+asyncpg://user:pwd@ep-xxx.neon.tech/db?sslmode=require
+      - key: SECRET_KEY
+        sync: false
+        # 值示例: 用 ./scripts/generate-secret.sh 生成
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DEBUG
+        value: "false"
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: ALGORITHM
+        value: HS256
+      - key: ORIGINS
+        # 允许的前端域名，逗号分隔（留空则允许所有来源）
+        value: ""

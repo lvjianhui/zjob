@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zjob-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zjob
+      POSTGRES_PASSWORD: zjob_password
+      POSTGRES_DB: zjob_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "zjob", "-d", "zjob_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: zjob-server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      PROJECT_NAME: "真职 Zjob API"
+      VERSION: "0.1.0"
+      DEBUG: "true"
+      SECRET_KEY: "change-this-to-a-very-secret-random-string-in-production"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      ALGORITHM: "HS256"
+      DATABASE_URL: "postgresql+asyncpg://zjob:zjob_password@postgres:5432/zjob_db"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "zjob_admin"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: zjob-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:8000"
+      API_BASE_URL: "http://server:8000"
+    depends_on:
+      - server
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+
+volumes:
+  postgres_data:
