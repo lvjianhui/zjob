@@ -1,7 +1,7 @@
 import json
 import os
 from functools import lru_cache
-from typing import List
+from typing import Any
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -33,7 +33,8 @@ class Settings(BaseSettings):
     #   1. JSON 数组: ORIGINS=["https://a.com","https://b.com"]
     #   2. 逗号分隔: ORIGINS=https://a.com,https://b.com
     #   3. 留空或不设: 默认允许所有来源 ["*"]
-    origins: List[str] = ["*"]
+    # 类型声明为 Any，避免 pydantic_settings 在 validator 前自动 JSON 解析空字符串
+    origins: Any = ["*"]
 
     @field_validator("origins", mode="before")
     @classmethod
