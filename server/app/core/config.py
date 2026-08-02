@@ -2,6 +2,7 @@ import json
 import os
 from functools import lru_cache
 from typing import Any
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -28,13 +29,27 @@ class Settings(BaseSettings):
     @field_validator("database_url", mode="before")
     @classmethod
     def fix_database_url(cls, v):
-        """自动将 postgresql:// 转为 postgresql+asyncpg://，Neon 等平台默认不含方言前缀"""
-        if isinstance(v, str):
-            v = v.strip()
-            if v.startswith("postgresql://"):
-                v = "postgresql+asyncpg://" + v[len("postgresql://"):]
-            elif v.startswith("postgres://"):
-                v = "postgresql+asyncpg://" + v[len("postgres://"):]
+        """自动修正连接串为 asyncpg 兼容格式（处理 Neon 等平台默认的 postgresql:// + sslmode 参数）"""
+        if not isinstance(v, str):
+            return v
+        v = v.strip()
+
+        # 1. 添加 asyncpg 方言前缀
+        if v.startswith("postgresql://"):
+            v = "postgresql+asyncpg://" + v[len("postgresql://"):]
+        elif v.startswith("postgres://"):
+            v = "postgresql+asyncpg://" + v[len("postgres://"):]
+
+        # 2. 移除 sslmode 参数（asyncpg 使用 ssl 参数，且默认自动协商 SSL）
+        parsed = urlparse(v)
+        if parsed.query:
+            qs = parse_qs(parsed.query, keep_blank_values=True)
+            qs.pop("sslmode", None)
+            # 重建查询字符串，每个参数只取第一个值
+            flat = {k: v[0] for k, v in qs.items()}
+            new_query = urlencode(flat) if flat else ""
+            v = urlunparse(parsed._replace(query=new_query))
+
         return v
 
     admin_username: str = "admin"
