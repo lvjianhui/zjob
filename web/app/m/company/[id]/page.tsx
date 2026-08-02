@@ -197,7 +197,7 @@ export default function MobileCompanyDetailPage() {
     setFavBusy(false);
   }, [favBusy, favorited, company]);
 
-  // 生成分享二维码（中心带 Zjob logo）
+  // 生成分享二维码
   const handleShare = async () => {
     if (shareOpen) {
       setShareOpen(false);
@@ -206,54 +206,13 @@ export default function MobileCompanyDetailPage() {
     if (typeof window === "undefined") return;
     const shareUrl = `${window.location.origin}/m/company/${id}`;
     try {
-      // 先生成高容错二维码
-      const qrDataUrl = await QRCode.toDataURL(shareUrl, {
+      const dataUrl = await QRCode.toDataURL(shareUrl, {
         width: 240,
         margin: 2,
-        errorCorrectionLevel: "H",
+        errorCorrectionLevel: "M",
         color: { dark: "#475569", light: "#ffffff" },
       });
-      // 用 Canvas 把 logo 合成到二维码中心
-      const canvas = document.createElement("canvas");
-      canvas.width = 240;
-      canvas.height = 240;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        setQrDataUrl(qrDataUrl);
-        setShareOpen(true);
-        return;
-      }
-      const qrImg = new Image();
-      const logoImg = new Image();
-      await new Promise<void>((resolve, reject) => {
-        qrImg.onload = () => resolve();
-        qrImg.onerror = reject;
-        qrImg.src = qrDataUrl;
-      });
-      ctx.drawImage(qrImg, 0, 0, 240, 240);
-      try {
-        await new Promise<void>((resolve, reject) => {
-          logoImg.onload = () => resolve();
-          logoImg.onerror = reject;
-          logoImg.src = "/zjob-logo.jpg";
-        });
-        // logo 占二维码 22% 宽度，居中，加白底
-        const logoSize = 52;
-        const logoX = (240 - logoSize) / 2;
-        const logoY = (240 - logoSize) / 2;
-        const padding = 4;
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(
-          logoX - padding,
-          logoY - padding,
-          logoSize + padding * 2,
-          logoSize + padding * 2
-        );
-        ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
-      } catch {
-        // logo 加载失败，使用纯二维码
-      }
-      setQrDataUrl(canvas.toDataURL("image/png"));
+      setQrDataUrl(dataUrl);
       setShareOpen(true);
     } catch {
       // 兜底：复制链接
