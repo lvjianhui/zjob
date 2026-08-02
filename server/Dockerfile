@@ -21,4 +21,5 @@ COPY . /app
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 显式切换到 /app 并设置 PYTHONPATH，防止容器运行时覆盖 WORKDIR
+CMD ["sh", "-c", "cd /app && PYTHONPATH=/app exec uvicorn app.main:app --host 0.0.0.0 --port 8000"]
