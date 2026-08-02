@@ -24,6 +24,54 @@ async def init_db() -> None:
         await conn.run_sync(Base.metadata.create_all)
 
 
+async def seed_default_companies() -> None:
+    """服务启动时若公司表为空，自动导入种子数据。"""
+    import json
+    from datetime import date as date_type
+    from pathlib import Path
+
+    from app.db.session import AsyncSessionLocal
+    from app.models import Company, DimensionData, Review
+
+    seed_file = Path(__file__).resolve().parent.parent / "seed" / "seed_companies.json"
+    if not seed_file.exists():
+        logger.info("种子数据文件不存在，跳过自动导入: %s", seed_file)
+        return
+
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(sa.select(sa.func.count()).select_from(Company))
+        count = result.scalar()
+        if count > 0:
+            logger.info("公司表已有 %d 条数据，跳过种子导入", count)
+            return
+
+        with open(seed_file, "r", encoding="utf-8") as f:
+            companies = json.load(f)
+
+        inserted = 0
+        for item in companies:
+            dimensions = item.pop("dimensions", [])
+            reviews_data = item.pop("reviews", [])
+
+            company = Company(**item)
+            session.add(company)
+            await session.flush()
+
+            for dim in dimensions:
+                session.add(DimensionData(company_id=company.id, **dim))
+
+            for rev in reviews_data:
+                published_at = rev.pop("published_at", None)
+                if published_at and isinstance(published_at, str):
+                    rev["published_at"] = date_type.fromisoformat(published_at)
+                session.add(Review(company_id=company.id, **rev))
+
+            inserted += 1
+
+        await session.commit()
+        logger.info("种子数据导入完成，共 %d 家公司", inserted)
+
+
 async def seed_admin_user() -> None:
     from app.db.session import AsyncSessionLocal
 
@@ -46,6 +94,7 @@ async def seed_admin_user() -> None:
 async def lifespan(app: FastAPI):
     await init_db()
     await seed_admin_user()
+    await seed_default_companies()
     yield
 
 

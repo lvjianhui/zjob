@@ -18,9 +18,8 @@ htmlcov/
 .idea/
 *.swp
 
-# 测试和数据
+# 测试
 tests/
-seed/seed_companies.json
 
 # Git
 .git/
