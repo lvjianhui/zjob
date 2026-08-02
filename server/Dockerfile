@@ -2,6 +2,10 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# 确保 Python 能找到 app 模块
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
 # 安装系统依赖
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \

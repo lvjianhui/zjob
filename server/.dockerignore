@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+htmlcov/
+.coverage
+*.egg-info/
+
+# 环境变量（防止密钥泄露到镜像中）
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# 测试和数据
+tests/
+seed/seed_companies.json
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore

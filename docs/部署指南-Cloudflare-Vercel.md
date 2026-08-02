@@ -8,11 +8,12 @@
 
 - [1. 架构总览](#1-架构总览)
 - [2. 免费平台选型](#2-免费平台选型)
-- [3. 方案 A（推荐）：Vercel + Render + Neon](#3-方案-a推荐vercel--render--neon)
-- [4. 方案 B：全 Vercel 部署 + Neon](#4-方案-b全-vercel-部署--neon)
-- [5. Cloudflare 集成](#5-cloudflare-集成)
-- [6. 环境变量速查表](#6-环境变量速查表)
-- [7. 常见问题](#7-常见问题)
+- [3. 已包含的配置文件](#3-已包含的配置文件)
+- [4. 方案 A（推荐）：Vercel + Render + Neon](#4-方案-a推荐vercel--render--neon)
+- [5. 方案 B：全 Vercel 部署 + Neon](#5-方案-b全-vercel-部署--neon)
+- [6. Cloudflare 集成](#6-cloudflare-集成)
+- [7. 环境变量速查表](#7-环境变量速查表)
+- [8. 常见问题](#8-常见问题)
 
 ---
 
@@ -70,9 +71,43 @@
 
 ---
 
-## 3. 方案 A（推荐）：Vercel + Render + Neon
+## 3. 已包含的配置文件
 
-### 3.1 第一步：创建 Neon PostgreSQL 数据库
+项目已内置以下部署相关文件，无需手动创建：
+
+### 配置文件
+
+| 文件 | 用途 | 适用方案 |
+|------|------|---------|
+| `render.yaml` | Render Blueprint 一键部署后端 | 方案 A |
+| `web/vercel.json` | Vercel 前端部署配置 | 方案 A |
+| `vercel.json` | Vercel 全栈配置（前端 + Python Serverless） | 方案 B |
+| `api/index.py` | Vercel Serverless Functions 入口 | 方案 B |
+| `requirements.txt` | 根目录 Python 依赖（供 Vercel 读取） | 方案 B |
+| `server/.env.production.example` | 后端生产环境变量模板 | 通用 |
+| `web/.env.production.example` | 前端生产环境变量模板 | 通用 |
+| `.gitignore` | 排除 .env、node_modules 等敏感文件 | 通用 |
+
+### 辅助脚本
+
+| 脚本 | 功能 | 用法 |
+|------|------|------|
+| `scripts/generate-secret.sh` | 生成 256 位 JWT 密钥 | `./scripts/generate-secret.sh` |
+| `scripts/deploy-check.sh` | 部署前检查（文件、环境变量、Git、安全） | `./scripts/deploy-check.sh A` 或 `./scripts/deploy-check.sh B` |
+| `scripts/seed-remote.sh` | 连接云端 PostgreSQL 导入种子数据 | `./scripts/seed-remote.sh` |
+
+### 已适配的代码
+
+| 文件 | 改动说明 |
+|------|---------|
+| `server/app/db/session.py` | 自动检测 Vercel Serverless 环境，切换连接池策略（Serverless 时 `pool_size=0`） |
+| `server/app/core/config.py` | CORS `origins` 支持逗号分隔字符串和 JSON 数组两种格式，方便部署平台配置 |
+
+---
+
+## 4. 方案 A（推荐）：Vercel + Render + Neon
+
+### 4.1 第一步：创建 Neon PostgreSQL 数据库
 
 1. 访问 [neon.tech](https://neon.tech)，使用 GitHub 账号登录
 2. 点击 **New Project**，选择区域（推荐 `AWS Singapore` — 离国内最近）
@@ -86,46 +121,55 @@ postgresql+asyncpg://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=re
 
 4. 在 Neon 控制台点击 **SQL Editor**，可以执行初始化 SQL（可选，应用启动时会自动建表）
 
-### 3.2 第二步：部署后端到 Render
+### 4.2 第二步：部署后端到 Render
 
-#### 3.2.1 准备部署配置
+#### 4.2.1 生成密钥并准备环境变量
 
-在项目根目录创建 `render.yaml`（可选，用于 Blueprint 部署）：
-
-```yaml
-# render.yaml
-services:
-  - type: web
-    name: zjob-api
-    env: docker
-    region: singapore
-    plan: free
-    dockerfilePath: ./server/Dockerfile
-    dockerContext: ./server
-    healthCheckPath: /health
-    envVars:
-      - key: DATABASE_URL
-        sync: false  # 在 Render 控制台手动填写
-      - key: SECRET_KEY
-        generateValue: true
-      - key: ADMIN_USERNAME
-        value: admin
-      - key: ADMIN_PASSWORD
-        sync: false
-      - key: DEBUG
-        value: "false"
-      - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: "60"
-      - key: ALGORITHM
-        value: HS256
+```bash
+# 生成 SECRET_KEY
+./scripts/generate-secret.sh
+# 输出示例: SECRET_KEY=28c436ea50a0118173d1be7741c5a809a294d2ebbbe207723e1137d65bf969f1
 ```
 
-#### 3.2.2 在 Render 上部署
+复制 `server/.env.production.example` 为 `server/.env.production`，填入实际值：
+
+```bash
+cp server/.env.production.example server/.env.production
+```
+
+填写关键字段：
+
+```bash
+# server/.env.production
+DEBUG=false
+SECRET_KEY=生成的密钥
+DATABASE_URL=postgresql+asyncpg://user:password@ep-xxx.neon.tech/dbname?sslmode=require
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=你的安全密码
+# CORS（逗号分隔多个域名）
+# ORIGINS=https://zjob-web-xxx.vercel.app,https://你的域名.com
+```
+
+#### 4.2.2 在 Render 上部署
+
+项目已包含 `render.yaml`（Render Blueprint），支持两种部署方式：
+
+**方式一：Blueprint 一键部署（推荐）**
 
 1. 访问 [render.com](https://render.com)，使用 GitHub 登录
-2. 点击 **New** → **Web Service**
-3. 连接你的 GitHub 仓库
-4. 配置如下：
+2. 点击 **New** → **Blueprint**
+3. 连接你的 GitHub 仓库，Render 会自动读取 `render.yaml` 配置
+4. 在弹出的表单中填写标记为需要手动输入的环境变量：
+   - `DATABASE_URL`：Neon 连接串
+   - `SECRET_KEY`：上一步生成的密钥
+   - `ADMIN_PASSWORD`：管理员密码
+5. 点击 **Apply**，等待构建完成
+
+**方式二：手动配置**
+
+1. 点击 **New** → **Web Service**
+2. 连接你的 GitHub 仓库
+3. 配置如下：
 
 | 配置项 | 值 |
 |-------|-----|
@@ -136,11 +180,11 @@ services:
 | Docker Build Context | `server` |
 | Instance Type | **Free** |
 
-5. 在 **Environment** 标签页添加环境变量：
+4. 在 **Environment** 标签页添加环境变量（参照 `server/.env.production.example`）：
 
 ```
 DATABASE_URL=postgresql+asyncpg://user:password@ep-xxx.neon.tech/dbname?sslmode=require
-SECRET_KEY=你的随机密钥（用 openssl rand -hex 32 生成）
+SECRET_KEY=生成的密钥
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=你的安全密码
 DEBUG=false
@@ -148,56 +192,45 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 ALGORITHM=HS256
 ```
 
-6. 点击 **Create Web Service**，等待构建完成
+5. 点击 **Create Web Service**，等待构建完成
 
-7. 部署成功后，Render 会分配一个域名，如：
-   ```
-   https://zjob-api.onrender.com
-   ```
+#### 4.2.3 验证后端
 
-8. 验证：访问 `https://zjob-api.onrender.com/health`，应返回：
-   ```json
-   {"code": 0, "msg": "success", "data": {"status": "ok", "version": "0.1.0"}}
-   ```
+部署成功后，Render 会分配一个域名，如：
+```
+https://zjob-api.onrender.com
+```
+
+访问 `https://zjob-api.onrender.com/health`，应返回：
+```json
+{"code": 0, "msg": "success", "data": {"status": "ok", "version": "0.1.0"}}
+```
 
 > **Render 免费版限制**：
 > - 15 分钟无请求会自动休眠，首次请求需要等待 30-60 秒冷启动
 > - 每月 750 小时免费时长（够 1 个服务 7×24 运行）
 > - 512MB 内存
 
-### 3.3 第三步：部署前端到 Vercel
+### 4.3 第三步：部署前端到 Vercel
 
-#### 3.3.1 修改前端 API 地址
+#### 4.3.1 配置前端环境变量
 
-在 `web/` 目录下创建 `.env.production`：
+复制 `web/.env.production.example` 为 `web/.env.production`，填入后端地址：
+
+```bash
+cp web/.env.production.example web/.env.production
+```
 
 ```bash
 # web/.env.production
 NEXT_PUBLIC_API_BASE_URL=https://zjob-api.onrender.com
 ```
 
-> 也可以在 Vercel 控制台设置环境变量，效果相同。
+> 也可以在 Vercel 控制台设置环境变量，效果相同。如果两者都设，控制台优先。
 
-#### 3.3.2 配置 Vercel 项目
+#### 4.3.2 在 Vercel 上部署
 
-在项目根目录创建 `vercel.json`：
-
-```json
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd web && npm install && npm run build",
-  "outputDirectory": "web/.next",
-  "framework": "nextjs",
-  "regions": ["hkg1"],
-  "env": {
-    "NEXT_PUBLIC_API_BASE_URL": "@zjob-api-url"
-  }
-}
-```
-
-> `hkg1` 是 Vercel 香港区域，离国内最近。`@zjob-api-url` 是 Vercel 的加密环境变量引用。
-
-#### 3.3.3 在 Vercel 上部署
+项目已包含 `web/vercel.json`（指定了香港区域 `hkg1` 和构建配置）。
 
 1. 访问 [vercel.com](https://vercel.com)，使用 GitHub 登录
 2. 点击 **Add New** → **Project**
@@ -206,7 +239,7 @@ NEXT_PUBLIC_API_BASE_URL=https://zjob-api.onrender.com
 
 | 配置项 | 值 |
 |-------|-----|
-| Framework Preset | **Next.js** |
+| Framework Preset | **Next.js**（自动检测） |
 | Root Directory | `web/` |
 | Build Command | `npm run build`（自动检测） |
 | Output Directory | `.next`（自动检测） |
@@ -224,124 +257,120 @@ NEXT_PUBLIC_API_BASE_URL=https://zjob-api.onrender.com
    https://zjob-web-xxx.vercel.app
    ```
 
-#### 3.3.4 验证
+#### 4.3.3 验证
 
 - 访问 Vercel 分配的域名，前端页面正常加载
 - 搜索公司、查看详情等功能正常调用后端 API
 - 在浏览器开发者工具的 Network 面板确认 API 请求指向 Render 域名
 
-### 3.4 第四步：导入种子数据
+### 4.4 第四步：导入种子数据
 
 后端首次启动时会自动建表并创建管理员账号。如需导入 Demo 公司数据：
 
 ```bash
-# 设置环境变量后运行种子脚本
-export DATABASE_URL="postgresql+asyncpg://user:password@ep-xxx.neon.tech/dbname?sslmode=require"
-cd server
-python seed/seed.py
+# 使用内置脚本（自动读取 server/.env.production 中的 DATABASE_URL）
+./scripts/seed-remote.sh
+
+# 或通过环境变量直接指定
+DATABASE_URL="postgresql+asyncpg://user:password@ep-xxx.neon.tech/dbname?sslmode=require" \
+  ./scripts/seed-remote.sh
+
+# 强制覆盖已有数据
+./scripts/seed-remote.sh --force
 ```
 
-或者直接在 Neon 的 SQL Editor 中执行 `server/seed/` 目录下的 SQL 文件。
+也可以直接在 Neon 的 SQL Editor 中执行 SQL。
+
+### 4.5 部署前检查
+
+部署前运行检查脚本，确认所有配置就绪：
+
+```bash
+./scripts/deploy-check.sh A
+```
+
+输出示例：
+
+```
+========================================
+  真职（Zjob）部署检查 — 方案 A
+========================================
+--- 基础配置文件 ---
+[PASS] server/Dockerfile 存在
+[PASS] render.yaml 存在（Render Blueprint）
+[PASS] web/vercel.json 存在
+...
+========================================
+  检查结果汇总
+========================================
+  通过: 14
+  失败: 0
+  警告: 2
+```
 
 ---
 
-## 4. 方案 B：全 Vercel 部署 + Neon
+## 5. 方案 B：全 Vercel 部署 + Neon
 
 > 如果不想使用 Render，可以将后端也部署到 Vercel Serverless Functions。
 
-### 4.1 项目结构调整
+### 5.1 项目结构（已配置好）
 
-Vercel 要求 Python Serverless Functions 放在 `api/` 目录下。需要在项目根目录创建入口文件：
+方案 B 所需的文件已全部包含在项目中：
 
-```bash
-mkdir -p api
-```
+- `api/index.py` — Vercel Serverless 入口，将请求转发给 FastAPI 应用
+- `vercel.json`（根目录） — 配置前端构建和 Serverless Functions 路由
+- `requirements.txt`（根目录） — Vercel 自动读取的 Python 依赖
+- `server/app/db/session.py` — 已自动适配 Serverless 连接池（检测 `VERCEL` 环境变量，自动设置 `pool_size=0`）
 
-创建 `api/index.py`：
+无需额外创建或修改任何文件。
 
-```python
-# api/index.py
-# Vercel Serverless 入口 — 将所有请求转发给 FastAPI app
-import sys
-import os
+### 5.2 环境变量
 
-# 将 server 目录加入 Python 路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'server'))
-
-from app.main import app  # noqa: E402
-
-# Vercel 会自动识别 ASGI 应用
-handler = app
-```
-
-### 4.2 修改后端配置
-
-Vercel Serverless 是无状态的，每次请求可能是不同的实例。需要调整数据库连接池配置：
-
-```python
-# server/app/db/session.py  — 修改连接池参数
-engine = create_async_engine(
-    settings.database_url,
-    pool_size=0,       # Serverless 不需要连接池
-    max_overflow=0,
-    pool_pre_ping=True,
-    pool_recycle=300,
-)
-```
-
-> **重要**：Vercel Serverless Functions 免费版有 **10 秒超时限制**，复杂查询可能超时。
-
-### 4.3 配置 vercel.json
-
-```json
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd web && npm install && npm run build",
-  "outputDirectory": "web/.next",
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 10
-    }
-  },
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.py" }
-  ],
-  "regions": ["hkg1"]
-}
-```
-
-### 4.4 环境变量
-
-在 Vercel 项目设置中添加：
+在 Vercel 项目设置中添加以下变量（参照 `server/.env.production.example`）：
 
 | Key | Value |
 |-----|-------|
 | `DATABASE_URL` | `postgresql+asyncpg://...neon.tech/...?sslmode=require` |
-| `SECRET_KEY` | 随机密钥 |
+| `SECRET_KEY` | 用 `./scripts/generate-secret.sh` 生成 |
 | `ADMIN_USERNAME` | `admin` |
 | `ADMIN_PASSWORD` | 安全密码 |
+| `DEBUG` | `false` |
 | `NEXT_PUBLIC_API_BASE_URL` | `/api`（同域，通过 rewrite 转发） |
 
-### 4.5 部署
+> 前端环境变量也需在 Vercel 中设置：将 `NEXT_PUBLIC_API_BASE_URL` 设为 `/api`。
 
-推送代码到 GitHub，Vercel 自动部署。部署后：
+### 5.3 部署
+
+1. 推送代码到 GitHub
+2. 在 Vercel 中导入仓库（**不要**设置 Root Directory，保持项目根目录）
+3. 配置环境变量（见上表）
+4. Vercel 自动部署
+
+部署后：
 
 - 前端：`https://your-project.vercel.app`
 - API：`https://your-project.vercel.app/api/health`
 
+### 5.4 部署前检查
+
+```bash
+./scripts/deploy-check.sh B
+```
+
 > **方案 B 限制**：
 > - 10 秒超时，不适合耗时操作
 > - 冷启动延迟 1-3 秒
-> - 无持久进程，数据库连接每次请求新建
+> - 无持久进程，数据库连接每次请求新建（已在 `db/session.py` 中自动适配）
 > - 免费版每月 100,000 次函数调用
 
 ---
 
-## 5. Cloudflare 集成
+## 6. Cloudflare 集成
 
 Cloudflare 在本架构中有三种用法，按需选择：
 
-### 5.1 用法一：自定义域名 + DNS 解析（推荐）
+### 6.1 用法一：自定义域名 + DNS 解析（推荐）
 
 如果你有自己的域名，可以用 Cloudflare 管理 DNS：
 
@@ -363,7 +392,7 @@ Cloudflare 在本架构中有三种用法，按需选择：
 6. 在 Render 中添加自定义域名：
    - Settings → Custom Domains → 添加 `api.你的域名.com`
 
-### 5.2 用法二：Cloudflare Pages（替代 Vercel 部署前端）
+### 6.2 用法二：Cloudflare Pages（替代 Vercel 部署前端）
 
 如果你想用 Cloudflare Pages 代替 Vercel 部署前端：
 
@@ -374,26 +403,14 @@ cd web
 npm install @cloudflare/next-on-pages
 ```
 
-2. 修改 `next.config.js`：
-
-```javascript
-const nextConfig = {
-  // ... 现有配置
-  output: "standalone",  // 保留或改为 undefined
-  experimental: {
-    // Cloudflare Pages 需要的配置
-  },
-};
-```
-
-3. 构建命令：
+2. 构建命令：
 
 ```bash
 npx @cloudflare/next-on-pages
 ```
 
-4. 在 Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**
-5. 配置：
+3. 在 Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**
+4. 配置：
 
 | 配置项 | 值 |
 |-------|-----|
@@ -402,11 +419,11 @@ npx @cloudflare/next-on-pages
 | Build output directory | `.vercel/output/static` |
 | Root directory | `web` |
 
-6. 添加环境变量：`NEXT_PUBLIC_API_BASE_URL` 指向后端地址
+5. 添加环境变量：`NEXT_PUBLIC_API_BASE_URL` 指向后端地址
 
 > **注意**：Cloudflare Pages 对 Next.js 的兼容性不如 Vercel 原生，部分功能（如 ISR、Server Actions）可能不完全支持。建议优先使用 Vercel。
 
-### 5.3 用法三：Cloudflare D1（替代 PostgreSQL — 需改代码）
+### 6.3 用法三：Cloudflare D1（替代 PostgreSQL — 需改代码）
 
 > **不推荐**：需要大量代码改动，将 `asyncpg` 替换为 SQLite 驱动。
 
@@ -421,21 +438,28 @@ npx @cloudflare/next-on-pages
 
 ---
 
-## 6. 环境变量速查表
+## 7. 环境变量速查表
 
 ### 后端（Render / Vercel Serverless）
+
+完整模板见 `server/.env.production.example`。
 
 | 变量名 | 说明 | 示例值 |
 |--------|------|--------|
 | `DATABASE_URL` | PostgreSQL 连接串（asyncpg 驱动） | `postgresql+asyncpg://user:pwd@ep-xxx.neon.tech/db?sslmode=require` |
-| `SECRET_KEY` | JWT 签名密钥 | `openssl rand -hex 32` 生成 |
+| `SECRET_KEY` | JWT 签名密钥 | `./scripts/generate-secret.sh` 生成 |
 | `ADMIN_USERNAME` | 管理员用户名 | `admin` |
 | `ADMIN_PASSWORD` | 管理员密码 | 你的安全密码 |
 | `DEBUG` | 调试模式 | `false` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Token 有效期（分钟） | `60` |
 | `ALGORITHM` | JWT 签名算法 | `HS256` |
+| `ORIGINS` | CORS 允许来源（逗号分隔或 JSON 数组） | `https://a.com,https://b.com` |
+
+> `ORIGINS` 支持两种格式：逗号分隔（`https://a.com,https://b.com`）或 JSON 数组（`["https://a.com","https://b.com"]`）。留空或不设则默认允许所有来源。
 
 ### 前端（Vercel）
+
+完整模板见 `web/.env.production.example`。
 
 | 变量名 | 说明 | 示例值 |
 |--------|------|--------|
@@ -443,7 +467,7 @@ npx @cloudflare/next-on-pages
 
 ---
 
-## 7. 常见问题
+## 8. 常见问题
 
 ### Q: Render 免费版会休眠，怎么解决？
 
@@ -460,21 +484,37 @@ Render 免费版 15 分钟无请求会休眠，首次请求需等待 30-60 秒�
 
 ### Q: CORS 报错怎么办？
 
-在 Render/Vercel 的环境变量中设置允许的前端域名：
+后端 `config.py` 的 `origins` 已支持多种格式。在部署平台设置 `ORIGINS` 环境变量即可：
 
-当前后端 `config.py` 中 `origins` 默认为 `["*"]`，生产环境建议改为具体域名：
-
-```python
-# 在环境变量中设置（推荐）
-# ORIGINS=["https://你的域名.com","https://zjob-web-xxx.vercel.app"]
 ```
+# 逗号分隔（推荐，部署平台友好）
+ORIGINS=https://zjob-web-xxx.vercel.app,https://你的域名.com
+
+# 或 JSON 数组
+ORIGINS=["https://zjob-web-xxx.vercel.app","https://你的域名.com"]
+```
+
+留空或不设则默认 `["*"]`（允许所有来源，生产环境不推荐）。
 
 ### Q: 数据库连接数超限？
 
-Neon 免费版限制 100 个连接。如果使用 Vercel Serverless（方案 B），每次请求可能新建连接。建议：
+Neon 免费版限制 100 个连接。解决方案：
 
 1. 使用 Neon 的 **Connection Pooling** 连接串（带 `-pooler` 后缀）
-2. 在代码中设置 `pool_size=0`（Serverless 场景）
+2. Serverless 环境（方案 B）已在 `db/session.py` 中自动设置 `pool_size=0`，每次请求新建连接并立即释放
+3. 传统部署（方案 A）使用 `pool_size=5`，适合长连接
+
+### Q: 部署检查脚本报 FAIL 怎么办？
+
+运行 `./scripts/deploy-check.sh A`（或 `B`），根据输出修复：
+
+| 常见 FAIL | 解决方案 |
+|----------|---------|
+| SECRET_KEY 未设置 | 运行 `./scripts/generate-secret.sh` |
+| DATABASE_URL 格式错误 | 确保以 `postgresql+asyncpg://` 开头，包含 `?sslmode=require` |
+| ADMIN_PASSWORD 未修改 | 在 `.env.production` 中设置安全密码 |
+| 未初始化 Git 仓库 | `git init && git remote add origin <url>` |
+| .gitignore 缺失 | 项目已包含，确认文件未被删除 |
 
 ### Q: 如何更新部署？
 
@@ -501,20 +541,23 @@ Neon 免费版限制 100 个连接。如果使用 Vercel Serverless（方案 B�
 ## 附录：一键部署检查清单
 
 ```
-□ 1. GitHub 仓库已创建并推送代码
-□ 2. Neon 数据库已创建，连接串已保存
-□ 3. 后端已部署到 Render / Vercel
-□ 4. /health 接口返回正常
-□ 5. 种子数据已导入（如需要）
-□ 6. 前端已部署到 Vercel
-□ 7. NEXT_PUBLIC_API_BASE_URL 已正确配置
-□ 8. 前端页面可正常访问
-□ 9. API 调用成功（搜索公司、查看详情）
-□ 10. Cloudflare DNS 已配置（如使用自定义域名）
-□ 11. UptimeRobot 已配置定时唤醒（如使用 Render 免费版）
-□ 12. SECRET_KEY、ADMIN_PASSWORD 已改为安全值
+□  1. 运行 ./scripts/generate-secret.sh 生成密钥
+□  2. 复制 .env.production.example 为 .env.production 并填写
+□  3. 运行 ./scripts/deploy-check.sh A（或 B）确认通过
+□  4. GitHub 仓库已创建并推送代码
+□  5. Neon 数据库已创建，连接串已配置
+□  6. 后端已部署到 Render / Vercel
+□  7. /health 接口返回正常
+□  8. 运行 ./scripts/seed-remote.sh 导入种子数据（如需要）
+□  9. 前端已部署到 Vercel
+□ 10. NEXT_PUBLIC_API_BASE_URL 已正确配置
+□ 11. 前端页面可正常访问
+□ 12. API 调用成功（搜索公司、查看详情）
+□ 13. Cloudflare DNS 已配置（如使用自定义域名）
+□ 14. UptimeRobot 已配置定时唤醒（如使用 Render 免费版）
+□ 15. ORIGINS 已设置为具体域名（生产环境安全要求）
 ```
 
 ---
 
-> 文档版本：1.0 | 更新日期：2026-08-02 | 适用项目：真职（Zjob）Phase 1
+> 文档版本：1.1 | 更新日期：2026-08-02 | 适用项目：真职（Zjob）Phase 1
