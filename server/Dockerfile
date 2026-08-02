@@ -15,11 +15,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 复制应用代码和启动脚本
-COPY . /app
-
-# 确保启动脚本可执行
-RUN chmod +x /app/entrypoint.sh
+COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
