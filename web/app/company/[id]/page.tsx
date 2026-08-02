@@ -6,23 +6,15 @@ import {
   ArrowUp,
   Award,
   Building2,
-  Layers,
-  MessagesSquare,
   TrendingUp,
 } from "lucide-react";
-import {
-  getCompany,
-  getCompanyAnalysis,
-  getCompanyDimensions,
-  getCompanyReviews,
-  getCompanySummary,
-} from "@/lib/api";
-import TrafficLightGrid from "@/components/TrafficLightGrid";
-import DimensionCard from "@/components/DimensionCard";
-import RealWageCard from "@/components/RealWageCard";
-import ReviewCard from "@/components/ReviewCard";
+import { getCompany } from "@/lib/api";
 import CompareButton from "@/components/CompareButton";
-import { DIMENSION_ORDER, type CompanyListItem } from "@/lib/types";
+import SummarySection from "@/components/company/SummarySection";
+import AnalysisSection from "@/components/company/AnalysisSection";
+import DimensionsSection from "@/components/company/DimensionsSection";
+import ReviewsSection from "@/components/company/ReviewsSection";
+import type { CompanyListItem } from "@/lib/types";
 
 interface CompanyPageProps {
   params: { id: string };
@@ -30,21 +22,11 @@ interface CompanyPageProps {
 
 export default async function CompanyPage({ params }: CompanyPageProps) {
   const companyId = Number(params.id);
-  const [company, summary, dimensionsData, analysis, reviews] = await Promise.all([
-    getCompany(companyId),
-    getCompanySummary(companyId),
-    getCompanyDimensions(companyId),
-    getCompanyAnalysis(companyId),
-    getCompanyReviews(companyId),
-  ]);
+  const company = await getCompany(companyId);
 
-  if (!company || !summary) {
+  if (!company) {
     notFound();
   }
-
-  const dimensionsMap = new Map(
-    (dimensionsData?.dimensions || []).map((d) => [d.dimension_key, d])
-  );
 
   const companyListItem: CompanyListItem = {
     id: company.id,
@@ -57,10 +39,6 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
     tags: company.tags,
     status: company.status,
   };
-
-  const approvedReviews = reviews.filter(
-    (r) => r.audit_status === "approved"
-  );
 
   return (
     <>
@@ -104,12 +82,6 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col items-end">
-              <span className="text-3xl font-bold text-emote-mint-500">
-                {summary.overall_score}
-              </span>
-              <span className="text-xs text-muted-foreground">综合评分</span>
-            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-xs text-muted-foreground border border-border">
@@ -132,50 +104,10 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
         </div>
       </section>
 
-      <section className="max-w-[960px] mx-auto px-4 mt-6">
-        <TrafficLightGrid summary={summary} />
-      </section>
-
-      {analysis && (
-        <section className="max-w-[960px] mx-auto px-4 mt-6">
-          <RealWageCard analysis={analysis} />
-        </section>
-      )}
-
-      <section className="max-w-[960px] mx-auto px-4 mt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Layers className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-base font-semibold text-foreground">六维度详情</h2>
-        </div>
-        <div className="space-y-4">
-          {DIMENSION_ORDER.map((key) => {
-            const dim = dimensionsMap.get(key);
-            if (!dim) return null;
-            return <DimensionCard key={key} dimension={dim} />;
-          })}
-        </div>
-      </section>
-
-      <section className="max-w-[960px] mx-auto px-4 mt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <MessagesSquare className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-base font-semibold text-foreground">
-            精选真实口碑
-          </h2>
-        </div>
-        {approvedReviews.length > 0 ? (
-          <div className="space-y-3">
-            {approvedReviews.map((review, idx) => (
-              <ReviewCard
-                key={review.id ?? idx}
-                review={review}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">暂无口碑数据</p>
-        )}
-      </section>
+      <SummarySection companyId={company.id} />
+      <AnalysisSection companyId={company.id} />
+      <DimensionsSection companyId={company.id} />
+      <ReviewsSection companyId={company.id} />
 
       <footer className="max-w-[960px] mx-auto px-4 mt-10">
         <div className="border-t border-border pt-6 flex flex-col items-center gap-3">
