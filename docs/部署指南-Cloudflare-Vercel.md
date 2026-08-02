@@ -259,13 +259,15 @@ NEXT_PUBLIC_API_BASE_URL=https://zjob-api.onrender.com
 
 #### 4.3.3 验证
 
-- 访问 Vercel 分配的域名，前端页面正常加载
+- 访问 Vercel 分配的域名（或已绑定的自定义域名），前端页面正常加载
 - 搜索公司、查看详情等功能正常调用后端 API
-- 在浏览器开发者工具的 Network 面板确认 API 请求指向 Render 域名
+- 在浏览器开发者工具的 Network 面板确认 API 请求指向 `api.zjob.asia`
 
 ### 4.4 第四步：导入种子数据
 
-后端首次启动时会自动建表并创建管理员账号。如需导入 Demo 公司数据：
+后端启动时会自动建表并创建管理员账号。**种子数据已实现自动导入**：启动时若公司表为空，自动从 `seed/seed_companies.json` 导入 3 家 Demo 公司 + 维度评分 + 口碑数据，无需手动操作。
+
+如需强制重新导入或导入自定义数据：
 
 ```bash
 # 使用内置脚本（自动读取 server/.env.production 中的 DATABASE_URL）
@@ -279,9 +281,56 @@ DATABASE_URL="postgresql+asyncpg://user:password@ep-xxx.neon.tech/dbname?sslmode
 ./scripts/seed-remote.sh --force
 ```
 
-也可以直接在 Neon 的 SQL Editor 中执行 SQL。
+### 4.5 第五步：配置自定义域名（国内访问必需）
 
-### 4.5 部署前检查
+> `vercel.app` 子域名在国内无法直接访问，必须绑定自定义域名。
+
+#### 4.5.1 注册域名（如已注册可跳过）
+
+推荐 .top / .asia 等便宜域名，首年 ¥9-15。
+
+#### 4.5.2 Vercel 绑定域名
+
+1. Vercel 控制台 → 项目 → **Settings → Domains** → 添加 `你的域名.com`
+2. Vercel 会提示 DNS 配置（通常是 CNAME 指向 `cname.vercel-dns.com`）
+
+#### 4.5.3 域名后台配置 DNS
+
+以阿里云为例：**域名解析** → 添加两条 CNAME 记录：
+
+| 记录类型 | 主机记录 | 记录值 |
+|---------|---------|--------|
+| CNAME | `@` | `cname.vercel-dns.com` |
+| CNAME | `www` | `cname.vercel-dns.com` |
+
+#### 4.5.4 API 二级域名 + CORS 配置
+
+为后端也绑定一个二级域名 `api.你的域名.com`：
+
+1. **域名后台**加一条 CNAME 记录：
+
+| 记录类型 | 主机记录 | 记录值 |
+|---------|---------|--------|
+| CNAME | `api` | `zjob-api.onrender.com` |
+
+2. **Render → Custom Domains** 添加 `api.你的域名.com`
+3. **Render 环境变量** `ORIGINS` 设为：
+
+```
+ORIGINS=https://你的域名.com,https://www.你的域名.com
+```
+
+4. **Vercel 环境变量** `NEXT_PUBLIC_API_BASE_URL` 改为 `https://api.你的域名.com`
+
+#### 4.5.5 最终架构
+
+```
+https://你的域名.com      → Vercel 前端
+https://api.你的域名.com  → Render 后端
+https://www.你的域名.com  → 重定向到 你的域名.com
+```
+
+### 4.6 部署前检查
 
 部署前运行检查脚本，确认所有配置就绪：
 
@@ -453,7 +502,7 @@ npx @cloudflare/next-on-pages
 | `DEBUG` | 调试模式 | `false` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Token 有效期（分钟） | `60` |
 | `ALGORITHM` | JWT 签名算法 | `HS256` |
-| `ORIGINS` | CORS 允许来源（逗号分隔或 JSON 数组） | `https://a.com,https://b.com` |
+| `ORIGINS` | CORS 允许来源（逗号分隔或 JSON 数组） | `https://zjob.asia,https://www.zjob.asia` |
 
 > `ORIGINS` 支持两种格式：逗号分隔（`https://a.com,https://b.com`）或 JSON 数组（`["https://a.com","https://b.com"]`）。留空或不设则默认允许所有来源。
 
@@ -463,7 +512,7 @@ npx @cloudflare/next-on-pages
 
 | 变量名 | 说明 | 示例值 |
 |--------|------|--------|
-| `NEXT_PUBLIC_API_BASE_URL` | 后端 API 地址 | `https://zjob-api.onrender.com`（方案 A）或 `/api`（方案 B） |
+| `NEXT_PUBLIC_API_BASE_URL` | 后端 API 地址 | `https://api.zjob.asia`（方案 A）或 `/api`（方案 B） |
 
 ---
 
@@ -548,14 +597,14 @@ Neon 免费版限制 100 个连接。解决方案：
 □  5. Neon 数据库已创建，连接串已配置
 □  6. 后端已部署到 Render / Vercel
 □  7. /health 接口返回正常
-□  8. 运行 ./scripts/seed-remote.sh 导入种子数据（如需要）
+□  8. 种子数据已自动导入（启动时若公司表为空）
 □  9. 前端已部署到 Vercel
-□ 10. NEXT_PUBLIC_API_BASE_URL 已正确配置
-□ 11. 前端页面可正常访问
-□ 12. API 调用成功（搜索公司、查看详情）
-□ 13. Cloudflare DNS 已配置（如使用自定义域名）
-□ 14. UptimeRobot 已配置定时唤醒（如使用 Render 免费版）
-□ 15. ORIGINS 已设置为具体域名（生产环境安全要求）
+□ 10. NEXT_PUBLIC_API_BASE_URL 已配置为 api.zjob.asia
+□ 11. 自定义域名已绑定：zjob.asia → Vercel，api.zjob.asia → Render
+□ 12. 前端页面可正常访问（验证 https://zjob.asia）
+□ 13. API 调用成功（搜索公司、查看详情）
+□ 14. Render ORIGINS 已设置为 https://zjob.asia,https://www.zjob.asia
+□ 15. UptimeRobot 已配置定时唤醒（如使用 Render 免费版）
 ```
 
 ---
