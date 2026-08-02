@@ -2,8 +2,6 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# 确保 Python 能找到 app 模块
-ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 # 安装系统依赖
@@ -16,10 +14,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 复制应用代码
+# 复制应用代码和启动脚本
 COPY . /app
+
+# 确保启动脚本可执行
+RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
 
-# 显式切换到 /app 并设置 PYTHONPATH，防止容器运行时覆盖 WORKDIR
-CMD ["sh", "-c", "cd /app && PYTHONPATH=/app exec uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+ENTRYPOINT ["/app/entrypoint.sh"]
