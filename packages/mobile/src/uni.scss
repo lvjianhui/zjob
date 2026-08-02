@@ -1,0 +1,170 @@
+/**
+ * 真职 Zjob 全局样式变量
+ * 复用 Web 端 Emote 色彩体系
+ */
+
+/* ============ Emote 色阶 ============ */
+
+/* Sky */
+$emote-sky-50: #f0f9ff;
+$emote-sky-100: #e0f2fe;
+$emote-sky-200: #bae6fd;
+$emote-sky-300: #7dd3fc;
+$emote-sky-400: #38bdf8;
+$emote-sky-500: #0ea5e9;
+$emote-sky-600: #0284c7;
+$emote-sky-700: #0369a1;
+
+/* Mint (绿) */
+$emote-mint-50: #f0fdf4;
+$emote-mint-100: #dcfce7;
+$emote-mint-200: #bbf7d0;
+$emote-mint-300: #86efac;
+$emote-mint-400: #4ade80;
+$emote-mint-500: #22c55e;
+$emote-mint-600: #16a34a;
+$emote-mint-700: #15803d;
+
+/* Lavender (紫) */
+$emote-lavender-50: #faf5ff;
+$emote-lavender-100: #f3e8ff;
+$emote-lavender-200: #e9d5ff;
+$emote-lavender-300: #d8b4fe;
+$emote-lavender-400: #c084fc;
+$emote-lavender-500: #a855f7;
+$emote-lavender-600: #9333ea;
+$emote-lavender-700: #7e22ce;
+
+/* Cream (黄/橙) */
+$emote-cream-50: #fffbeb;
+$emote-cream-100: #fef3c7;
+$emote-cream-200: #fde68a;
+$emote-cream-300: #fcd34d;
+$emote-cream-400: #fbbf24;
+$emote-cream-500: #f59e0b;
+$emote-cream-600: #d97706;
+$emote-cream-700: #b45309;
+
+/* Charcoal (灰) */
+$emote-charcoal-50: #f7f7f8;
+$emote-charcoal-100: #efeff1;
+$emote-charcoal-200: #dfdfe2;
+$emote-charcoal-300: #bdbdc2;
+$emote-charcoal-400: #9898a0;
+$emote-charcoal-500: #72727d;
+$emote-charcoal-600: #55555e;
+$emote-charcoal-700: #414149;
+$emote-charcoal-800: #2a2a2f;
+$emote-charcoal-900: #18181b;
+
+/* Rose (红) */
+$emote-rose-50: #fff1f2;
+$emote-rose-100: #ffe4e6;
+$emote-rose-200: #fecdd3;
+$emote-rose-300: #fda4af;
+$emote-rose-400: #fb7185;
+$emote-rose-500: #f43f5e;
+$emote-rose-600: #e11d48;
+$emote-rose-700: #be123c;
+
+/* ============ 语义变量 ============ */
+$bg-background: #ffffff;
+$bg-card: #ffffff;
+$bg-secondary: #f7f7f8;
+$text-foreground: #18181b;
+$text-muted: #72727d;
+$border-border: #efeff1;
+$color-primary: #18181b;
+$color-primary-text: #ffffff;
+
+/* ============ 全局样式 ============ */
+page {
+  background-color: #ffffff;
+  color: #18181b;
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.6;
+}
+
+view, text {
+  box-sizing: border-box;
+}
+
+/* 通用工具类 */
+.flex { display: flex; }
+.flex-1 { flex: 1; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-shrink-0 { flex-shrink: 0; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.rounded { border-radius: 8rpx; }
+.rounded-lg { border-radius: 16rpx; }
+.rounded-xl { border-radius: 24rpx; }
+.rounded-full { border-radius: 999rpx; }
+
+.shadow {
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+.shadow-lg {
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.animate-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 安全区域 */
+.safe-area-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}

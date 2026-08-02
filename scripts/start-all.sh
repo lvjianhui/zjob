@@ -18,9 +18,9 @@ case "$MODE" in
   backend+web|backend+admin|backend+mobile) ;;
   *)
     echo "用法: $0 [backend+web|backend+admin|backend+mobile]"
-    echo "  backend+web    启动后端 + Web 公开站 (默认)"
-    echo "  backend+admin  启动后端 + 直接打开后台管理"
-    echo "  backend+mobile 启动后端 + 直接打开移动端"
+    echo "  backend+web    启动后端 + Web 公开站 (默认, port 3000)"
+    echo "  backend+admin  启动后端 + 后台管理 (port 3001)"
+    echo "  backend+mobile 启动后端 + 移动端 H5 预览 (port 5173)"
     exit 1
     ;;
 esac
@@ -37,19 +37,22 @@ echo "启动本地数据库服务..."
 
 sleep 1
 
-# 根据模式选择前端初始路由
+# 根据模式选择前端
 case "$MODE" in
   backend+web)
     FRONTEND_URL="http://localhost:3000"
     FRONTEND_DESC="Web 公开站"
+    FRONTEND_SCRIPT="start-frontend.sh"
     ;;
   backend+admin)
-    FRONTEND_URL="http://localhost:3000/admin"
+    FRONTEND_URL="http://localhost:3001"
     FRONTEND_DESC="后台管理"
+    FRONTEND_SCRIPT="start-admin.sh"
     ;;
   backend+mobile)
-    FRONTEND_URL="http://localhost:3000/m"
-    FRONTEND_DESC="移动端"
+    FRONTEND_URL="http://localhost:5173"
+    FRONTEND_DESC="移动端 H5 预览"
+    FRONTEND_SCRIPT="start-mobile.sh"
     ;;
 esac
 
@@ -59,14 +62,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     tell application "Terminal"
       activate
       do script "cd '${PROJECT_ROOT}'; ./scripts/start-backend.sh"
-      do script "cd '${PROJECT_ROOT}'; ./scripts/start-frontend.sh"
+      do script "cd '${PROJECT_ROOT}'; ./scripts/${FRONTEND_SCRIPT}"
     end tell
 EOF
   echo ""
   echo "已打开新终端标签页运行后端和前端。"
   echo "服务地址："
   echo "  ${FRONTEND_DESC}: ${FRONTEND_URL}"
-  echo "  Web 前端根目录: http://localhost:3000"
   echo "  后端 API: http://localhost:8000"
   echo "  API 文档: http://localhost:8000/docs"
   echo ""
@@ -74,7 +76,7 @@ EOF
 else
   echo "当前非 macOS 系统，请手动运行以下命令："
   echo "  终端 1: ./scripts/start-backend.sh"
-  echo "  终端 2: ./scripts/start-frontend.sh"
+  echo "  终端 2: ./scripts/${FRONTEND_SCRIPT}"
   echo ""
   echo "启动后访问：${FRONTEND_URL}"
 fi

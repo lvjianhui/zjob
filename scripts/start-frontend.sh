@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-cd "${PROJECT_ROOT}/web"
+cd "${PROJECT_ROOT}/packages/web"
 
 if [ ! -d node_modules ]; then
   echo "安装前端依赖..."

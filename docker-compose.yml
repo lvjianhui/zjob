@@ -46,7 +46,7 @@ services:
 
   web:
     build:
-      context: ./web
+      context: ./packages/web
       dockerfile: Dockerfile
     container_name: zjob-web
     restart: unless-stopped
@@ -58,7 +58,7 @@ services:
     depends_on:
       - server
     volumes:
-      - ./web:/app
+      - ./packages/web:/app
       - /app/node_modules
     command: sh -c "npm install && npm run dev"
 

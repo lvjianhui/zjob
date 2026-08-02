@@ -41,7 +41,7 @@ pip install -q -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 echo ""
 echo "初始化前端..."
-cd "${PROJECT_ROOT}/web"
+cd "${PROJECT_ROOT}/packages/web"
 npm install
 
 echo ""

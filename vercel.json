@@ -7,10 +7,10 @@
   },
   "builds": [
     {
-      "src": "web/package.json",
+      "src": "packages/web/package.json",
       "use": "@vercel/next",
       "config": {
-        "rootDirectory": "web"
+        "rootDirectory": "packages/web"
       }
     },
     {
@@ -25,7 +25,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/web/$1"
+      "dest": "/packages/web/$1"
     }
   ],
   "functions": {

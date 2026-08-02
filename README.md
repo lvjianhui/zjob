@@ -12,9 +12,12 @@
 ├── .env.example                # 环境变量示例
 ├── README.md                   # 本文件
 ├── docs/                       # 产品文档
-├── packages/shared/            # 跨端共享类型与常量（预留）
+├── packages/
+│   ├── web/                    # Next.js 14 官网（PC 端）
+│   ├── admin-web/              # Next.js 14 后台管理系统
+│   ├── mobile/                 # uni-app 移动端（iOS/Android/微信小程序/鸿蒙）
+│   └── shared/                 # 跨端共享类型与常量
 ├── server/                     # FastAPI 后端
-├── web/                        # Next.js 14 前端
 └── crawler/                    # 爬虫引擎占位
 ```
 
@@ -72,7 +75,7 @@ python seed/seed.py
 **前端**
 
 ```bash
-cd web
+cd packages/web
 npm install
 # 修改 .env.local 中的 NEXT_PUBLIC_API_BASE_URL
 npm run dev
@@ -114,5 +117,5 @@ npm run dev
 ## 注意事项
 
 - Phase 1 以 Demo 验证为主，公司数据为手造种子数据，未接入正式爬虫。
-- 小程序与 APP 端在 Phase 2/3 实现，当前 Web 端为唯一前端。
+- 小程序与 APP 端在 `packages/mobile/`（uni-app 四端），当前官网为 `packages/web/`。
 - 生产部署前务必修改 `SECRET_KEY`、数据库密码等敏感配置。

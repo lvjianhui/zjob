@@ -32,12 +32,12 @@ echo "--- 基础配置文件 ---"
 
 [ -f "server/Dockerfile" ] && ok "server/Dockerfile 存在" || fail "server/Dockerfile 缺失"
 [ -f "server/requirements.txt" ] && ok "server/requirements.txt 存在" || fail "server/requirements.txt 缺失"
-[ -f "web/package.json" ] && ok "web/package.json 存在" || fail "web/package.json 缺失"
-[ -f "web/next.config.js" ] && ok "web/next.config.js 存在" || fail "web/next.config.js 缺失"
+[ -f "packages/web/package.json" ] && ok "packages/web/package.json 存在" || fail "packages/web/package.json 缺失"
+[ -f "packages/web/next.config.js" ] && ok "packages/web/next.config.js 存在" || fail "packages/web/next.config.js 缺失"
 
 if [ "$PLAN" = "A" ]; then
   [ -f "render.yaml" ] && ok "render.yaml 存在（Render Blueprint）" || fail "render.yaml 缺失"
-  [ -f "web/vercel.json" ] && ok "web/vercel.json 存在" || warn "web/vercel.json 缺失（可在 Vercel 控制台手动配置）"
+  [ -f "packages/web/vercel.json" ] && ok "packages/web/vercel.json 存在" || warn "packages/web/vercel.json 缺失（可在 Vercel 控制台手动配置）"
 elif [ "$PLAN" = "B" ]; then
   [ -f "vercel.json" ] && ok "vercel.json 存在（根目录，方案 B）" || fail "vercel.json 缺失"
   [ -f "api/index.py" ] && ok "api/index.py 存在（Serverless 入口）" || fail "api/index.py 缺失"
@@ -101,11 +101,11 @@ echo ""
 echo "--- 前端环境变量 ---"
 
 FRONTEND_ENV=""
-if [ -f "web/.env.production" ]; then
-  FRONTEND_ENV="web/.env.production"
-elif [ -f "web/.env.local" ]; then
-  FRONTEND_ENV="web/.env.local"
-  warn "使用 web/.env.local（建议创建 .env.production 用于生产）"
+if [ -f "packages/web/.env.production" ]; then
+  FRONTEND_ENV="packages/web/.env.production"
+elif [ -f "packages/web/.env.local" ]; then
+  FRONTEND_ENV="packages/web/.env.local"
+  warn "使用 packages/web/.env.local（建议创建 .env.production 用于生产）"
 fi
 
 if [ -n "$FRONTEND_ENV" ]; then
@@ -127,10 +127,10 @@ echo ""
 # ---- 4. 前端构建检查 ----
 echo "--- 前端构建 ---"
 
-if [ -d "web/node_modules" ]; then
-  ok "web/node_modules 存在（依赖已安装）"
+if [ -d "packages/web/node_modules" ]; then
+  ok "packages/web/node_modules 存在（依赖已安装）"
 else
-  warn "web/node_modules 不存在（Vercel 会自动安装，本地检查需要先 npm install）"
+  warn "packages/web/node_modules 不存在（Vercel 会自动安装，本地检查需要先 npm install）"
 fi
 
 echo ""
