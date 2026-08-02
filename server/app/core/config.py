@@ -25,6 +25,18 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://zjob:zjob_password@postgres:5432/zjob_db"
 
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def fix_database_url(cls, v):
+        """自动将 postgresql:// 转为 postgresql+asyncpg://，Neon 等平台默认不含方言前缀"""
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("postgresql://"):
+                v = "postgresql+asyncpg://" + v[len("postgresql://"):]
+            elif v.startswith("postgres://"):
+                v = "postgresql+asyncpg://" + v[len("postgres://"):]
+        return v
+
     admin_username: str = "admin"
     admin_password: str = "zjob_admin"
 
