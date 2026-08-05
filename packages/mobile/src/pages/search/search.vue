@@ -1,12 +1,12 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{ '--status-bar-height': statusBarHeight + 'px' }">
     <!-- 顶栏 -->
     <view class="topbar">
       <view class="back-btn" @tap="goBack">
-        <text class="back-icon">&#xe612;</text>
+        <Icon name="back" :size="40" color="#18181b" />
       </view>
       <view class="search-input-bar">
-        <text class="search-icon">&#xe610;</text>
+        <Icon name="search" :size="32" color="#72727d" style="margin-right: 12rpx" />
         <input
           class="search-input"
           type="text"
@@ -16,11 +16,11 @@
           confirm-type="search"
           @confirm="onSearch"
         />
-        <text
+        <view
           v-if="keyword"
           class="clear-btn"
           @tap="clearKeyword"
-        >&#xe613;</text>
+        ><Icon name="close" :size="28" color="#72727d" /></view>
       </view>
     </view>
 
@@ -72,7 +72,9 @@ import { ref, onMounted } from "vue";
 import { searchCompanies, getCompanySummary } from "@/utils/api";
 import type { CompanyListItem, CompanySummaryResponse } from "@/utils/types";
 import CompanyCard from "@/components/company-card.vue";
+import { getSystemLayout } from "@/utils/constants";
 
+const { statusBarHeight } = getSystemLayout();
 const keyword = ref("");
 const results = ref<CompanyListItem[]>([]);
 const summaryMap = ref<Record<number, CompanySummaryResponse>>({});
@@ -152,7 +154,7 @@ onReachBottom(() => {
 <style lang="scss" scoped>
 .page {
   min-height: 100vh;
-  background: #ffffff;
+  background: #f7f7f8;
 }
 
 .topbar {
@@ -161,7 +163,7 @@ onReachBottom(() => {
   z-index: 30;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1rpx solid #efeff1;
+  border-bottom: 1rpx solid #e4e4e7;
   display: flex;
   align-items: center;
   gap: 24rpx;
@@ -235,8 +237,8 @@ onReachBottom(() => {
 
 .skeleton-item {
   height: 128rpx;
-  border-radius: 16rpx;
-  background: #f7f7f8;
+  border-radius: 16px;
+  background: #efeff1;
   animation: pulse 1.5s ease-in-out infinite;
 }
 

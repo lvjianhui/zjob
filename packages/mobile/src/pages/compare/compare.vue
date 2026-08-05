@@ -1,10 +1,10 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{ '--status-bar-height': statusBarHeight + 'px', '--tabbar-height': tabbarHeight + 'px' }">
     <!-- 选择模式 -->
     <template v-if="mode === 'select'">
       <view class="topbar">
         <view class="back-btn" @tap="goHome">
-          <text class="back-icon">&#xe612;</text>
+          <Icon name="back" :size="40" color="#18181b" />
         </view>
         <text class="topbar-title">公司对比</text>
         <view class="topbar-right" />
@@ -24,7 +24,7 @@
             class="chip"
           >
             <text class="chip-text">{{ c.short_name || c.name }}</text>
-            <text class="chip-close" @tap="removeSelected(c.id)">&#xe613;</text>
+            <view class="chip-close" @tap="removeSelected(c.id)"><Icon name="close" :size="24" color="rgba(255,255,255,0.7)" /></view>
           </view>
           <text v-if="selectedIds.length < MAX_COMPARE" class="chip-hint">
             再选 {{ MAX_COMPARE - selectedIds.length }} 家
@@ -79,7 +79,7 @@
     <template v-else>
       <view class="topbar">
         <view class="back-btn" @tap="backToSelect">
-          <text class="back-icon">&#xe612;</text>
+          <Icon name="back" :size="40" color="#18181b" />
         </view>
         <text class="topbar-title">1v1 对比</text>
         <view class="topbar-right" />
@@ -100,7 +100,7 @@
           >
             <text class="vs-card-name">{{ c.short_name || c.name }}</text>
             <view class="vs-card-score">
-              <text class="vs-score-num">{{ (c.overall_score / 10).toFixed(1) }}</text>
+              <text class="vs-score-num">{{ c.overall_score }}</text>
             </view>
           </view>
           <view class="vs-badge">
@@ -136,7 +136,7 @@
                       }"
                     />
                   </view>
-                  <text class="compare-score-num">{{ (getDimScore(c, dimKey) / 10).toFixed(1) }}</text>
+                  <text class="compare-score-num">{{ getDimScore(c, dimKey) }}</text>
                 </view>
               </view>
             </view>
@@ -181,6 +181,7 @@
         <text class="empty-text">对比数据加载失败，请重试</text>
       </view>
     </template>
+    <TabBar current="compare" />
   </view>
 </template>
 
@@ -204,9 +205,11 @@ import {
   DIMENSION_ORDER,
   DIMENSION_LABELS,
   LEVEL_COLORS,
+  getSystemLayout,
 } from "@/utils/constants";
 import { getCompareIds, setCompareIds } from "@/utils/storage";
 
+const { statusBarHeight, tabbarHeight } = getSystemLayout();
 const MAX_COMPARE = 2;
 const mode = ref<"select" | "compare">("select");
 const selectedIds = ref<number[]>([]);
@@ -255,6 +258,7 @@ onMounted(() => {
 });
 
 onShow(() => {
+  uni.hideTabBar();
   selectedIds.value = getCompareIds();
 });
 
@@ -343,8 +347,8 @@ function getWageColor(companyId: number): string {
 <style lang="scss" scoped>
 .page {
   min-height: 100vh;
-  background: #ffffff;
-  padding-bottom: 200rpx;
+  background: #f7f7f8;
+  padding-bottom: var(--tabbar-height);
 }
 
 .topbar {
@@ -353,7 +357,7 @@ function getWageColor(companyId: number): string {
   z-index: 20;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1rpx solid #efeff1;
+  border-bottom: 1rpx solid #e4e4e7;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -367,7 +371,7 @@ function getWageColor(companyId: number): string {
 .topbar-title { font-size: 32rpx; font-weight: 600; color: #18181b; }
 .topbar-right { width: 60rpx; }
 
-.content { padding: 32rpx; }
+.content { padding: 32rpx 32rpx 200rpx; }
 
 .intro { padding: 32rpx 0; }
 .intro-title { display: block; font-size: 36rpx; font-weight: 600; color: #18181b; }
@@ -387,7 +391,7 @@ function getWageColor(companyId: number): string {
 
 .select-card {
   display: flex; align-items: center; gap: 24rpx;
-  padding: 24rpx; border: 2rpx solid #efeff1; border-radius: 16rpx;
+  padding: 24rpx; border: 2rpx solid #e4e4e7; border-radius: 16px;
   background: #ffffff;
 }
 .select-card-active { border-color: #18181b; }
@@ -404,13 +408,12 @@ function getWageColor(companyId: number): string {
 .select-btn-active .select-btn-icon { color: #ffffff; }
 
 .action-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+  position: fixed; bottom: var(--tabbar-height); left: 0; right: 0; z-index: 40;
   display: flex; align-items: center; justify-content: space-between;
   padding: 24rpx 32rpx;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-top: 1rpx solid #efeff1;
-  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid #e4e4e7;
 }
 .action-count { font-size: 24rpx; color: #72727d; }
 .action-count-num { font-weight: 700; color: #18181b; }
@@ -422,17 +425,17 @@ function getWageColor(companyId: number): string {
 .action-btn-text { color: #ffffff; font-size: 28rpx; font-weight: 600; }
 
 .skeleton-list { display: flex; flex-direction: column; gap: 16rpx; }
-.skeleton-item { height: 128rpx; border-radius: 16rpx; background: #f7f7f8; animation: pulse 1.5s ease-in-out infinite; }
+.skeleton-item { height: 128rpx; border-radius: 16px; background: #efeff1; animation: pulse 1.5s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .skeleton-area { padding: 32rpx; display: flex; flex-direction: column; gap: 24rpx; }
-.skeleton-block { border-radius: 24rpx; background: #f7f7f8; animation: pulse 1.5s ease-in-out infinite; }
+.skeleton-block { border-radius: 16px; background: #efeff1; animation: pulse 1.5s ease-in-out infinite; }
 
 .compare-content { padding: 32rpx; }
 
 .vs-section { position: relative; display: flex; gap: 16rpx; margin-bottom: 32rpx; }
 .vs-card {
-  flex: 1; padding: 24rpx; border: 1rpx solid #efeff1; border-radius: 16rpx;
-  background: #ffffff; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+  flex: 1; padding: 24rpx; border: 1rpx solid #e4e4e7; border-radius: 16px;
+  background: #ffffff; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
 }
 .vs-card-name { display: block; font-size: 24rpx; font-weight: 700; color: #18181b; margin-bottom: 8rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vs-score-num { font-size: 48rpx; font-weight: 800; color: #18181b; }
@@ -445,8 +448,8 @@ function getWageColor(companyId: number): string {
 .vs-badge-text { font-size: 20rpx; font-weight: 800; color: #ffffff; }
 
 .card {
-  background: #ffffff; border: 1rpx solid #efeff1; border-radius: 24rpx;
-  padding: 32rpx; margin-top: 32rpx; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+  background: #ffffff; border: 1rpx solid #e4e4e7; border-radius: 16px;
+  padding: 32rpx; margin-top: 32rpx; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
 }
 .card-title { display: block; font-size: 32rpx; font-weight: 600; color: #18181b; margin-bottom: 24rpx; }
 

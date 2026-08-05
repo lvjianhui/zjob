@@ -14,4 +14,13 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 800,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Vite 5.2 仍使用 legacy JS API 调用 sass,在等待升级到 Vite 5.4+ 的 modern API 前,
+        // 显式静音该弃用警告,避免开发与构建日志被污染。
+        silenceDeprecations: ["legacy-js-api"],
+      },
+    },
+  },
 });

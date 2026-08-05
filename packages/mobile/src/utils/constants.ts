@@ -53,25 +53,28 @@ export const AUDIT_STATUS_LABELS: Record<ReviewAuditStatus, string> = {
 
 export const LEVEL_COLORS: Record<
   TrafficLightLevel,
-  { bg: string; text: string; dot: string; hex: string }
+  { bg: string; text: string; dot: string; hex: string; alphaBg: string }
 > = {
   green: {
     bg: "#f0fdf4",
     text: "#15803d",
     dot: "#22c55e",
     hex: "#22c55e",
+    alphaBg: "rgba(34, 197, 94, 0.133)",
   },
   yellow: {
     bg: "#fffbeb",
     text: "#b45309",
     dot: "#f59e0b",
     hex: "#f59e0b",
+    alphaBg: "rgba(245, 158, 11, 0.133)",
   },
   red: {
     bg: "#fff1f2",
     text: "#be123c",
     dot: "#f43f5e",
     hex: "#ef4444",
+    alphaBg: "rgba(239, 68, 68, 0.133)",
   },
 };
 
@@ -109,7 +112,7 @@ export const DIMENSIONS_META: DimensionMeta[] = [
     oneLiner: "五险一金 / 补贴 / 假期",
     decisionMeaning:
       "福利是隐性薪资，规范的公司这块能多出 10-20% 的实际收入感。",
-    icon: "shield",
+    icon: "shield-check",
     accent: "cream",
   },
   {
@@ -126,7 +129,7 @@ export const DIMENSIONS_META: DimensionMeta[] = [
     oneLiner: "晋升 / 培训 / 管理规范",
     decisionMeaning:
       "前几份工作成长性 > 薪资，3 年后你是行业抢手货还是被锁死在旧岗位。",
-    icon: "trending",
+    icon: "trending-up",
     accent: "lavender",
   },
   {
@@ -135,7 +138,7 @@ export const DIMENSIONS_META: DimensionMeta[] = [
     oneLiner: "一线员工 / 离职反馈",
     decisionMeaning:
       "HR 展示的是橱窗，在职/离职员工展示的是厨房，这里最接近真相。",
-    icon: "message",
+    icon: "message-square",
     accent: "rose",
   },
 ];
@@ -206,4 +209,19 @@ export function scoreToLevel(score: number): TrafficLightLevel {
   if (score >= 80) return "green";
   if (score >= 60) return "yellow";
   return "red";
+}
+
+/**
+ * 获取系统布局参数（状态栏高度、TabBar 高度、安全区底部）
+ * 根据 uni.getSystemInfoSync 动态计算，确保各机型一致
+ */
+export function getSystemLayout() {
+  const sysInfo = uni.getSystemInfoSync();
+  const safeBottom = sysInfo.safeAreaInsets?.bottom || 0;
+  const TABBAR_BASE = 48; // px，纯图标 TabBar 内容区基础高度（底部安全区另行追加）
+  return {
+    statusBarHeight: sysInfo.statusBarHeight || 0,
+    tabbarHeight: TABBAR_BASE + safeBottom,
+    safeBottom,
+  };
 }

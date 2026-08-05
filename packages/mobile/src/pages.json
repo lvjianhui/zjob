@@ -50,7 +50,7 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "真职 Zjob",
+    "navigationBarTitleText": "Zjob",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF",
     "backgroundTextStyle": "dark"
@@ -58,25 +58,19 @@
   "tabBar": {
     "color": "#9898a0",
     "selectedColor": "#18181b",
-    "borderStyle": "black",
-    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/home-active.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/compare/compare",
-        "iconPath": "static/tabbar/compare.png",
-        "selectedIconPath": "static/tabbar/compare-active.png",
         "text": "对比"
       },
       {
         "pagePath": "pages/profile/profile",
-        "iconPath": "static/tabbar/profile.png",
-        "selectedIconPath": "static/tabbar/profile-active.png",
         "text": "我的"
       }
     ]

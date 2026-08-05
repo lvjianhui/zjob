@@ -1,6 +1,6 @@
 "use client";
 
-import { MessagesSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { getCompanyReviews } from "@/lib/api";
 import { useAsync } from "@/hooks/useAsync";
 import ReviewCard from "@/components/ReviewCard";
@@ -20,9 +20,9 @@ export default function ReviewsSection({
     return (
       <section className="max-w-[960px] mx-auto px-4 mt-6">
         <div className="flex items-center gap-2 mb-4">
-          <MessagesSquare className="w-4 h-4 text-muted-foreground" />
+          <MessageSquare className="w-4 h-4 text-muted-foreground" />
           <h2 className="text-base font-semibold text-foreground">
-            精选真实口碑
+            精选口碑
           </h2>
         </div>
         <div className="space-y-3">
@@ -37,9 +37,9 @@ export default function ReviewsSection({
     return (
       <section className="max-w-[960px] mx-auto px-4 mt-6">
         <div className="flex items-center gap-2 mb-4">
-          <MessagesSquare className="w-4 h-4 text-muted-foreground" />
+          <MessageSquare className="w-4 h-4 text-muted-foreground" />
           <h2 className="text-base font-semibold text-foreground">
-            精选真实口碑
+            精选口碑
           </h2>
         </div>
         <SectionError message="口碑数据加载失败" onRetry={reload} />
@@ -52,11 +52,11 @@ export default function ReviewsSection({
   );
 
   return (
-    <section className="max-w-[960px] mx-auto px-4 mt-6">
+    <section className="max-w-[960px] mx-auto px-4 mt-6 pb-6">
       <div className="flex items-center gap-2 mb-4">
-        <MessagesSquare className="w-4 h-4 text-muted-foreground" />
+        <MessageSquare className="w-4 h-4 text-muted-foreground" />
         <h2 className="text-base font-semibold text-foreground">
-          精选真实口碑
+          精选口碑
         </h2>
       </div>
       {approvedReviews.length > 0 ? (

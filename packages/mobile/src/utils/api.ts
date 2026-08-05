@@ -21,15 +21,6 @@ import type {
   UserProfile,
   UserUpdateRequest,
 } from "./types";
-import {
-  buildMockAnalysis,
-  buildMockCompare,
-  buildMockSummary,
-  MOCK_COMPANIES,
-  MOCK_DIMENSIONS,
-  MOCK_REVIEWS,
-  searchMockCompanies,
-} from "./mockData";
 import { getToken, readLocalFavs } from "./storage";
 
 /**
@@ -42,7 +33,10 @@ const API_BASE_URL =
 // #endif
 
 // #ifndef H5
-const API_BASE_URL = "https://api.zjob.asia";
+// App 端（iOS/Android/鸿蒙）：开发环境连本机后端，生产环境连线上
+const API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:8000"
+  : "https://api.zjob.asia";
 // #endif
 
 /** 统一响应信封 */
@@ -107,7 +101,7 @@ async function safeRequest<T>(
   try {
     return await fetcher();
   } catch (err) {
-    console.warn("API unavailable, using mock data:", err);
+    console.warn("API unavailable, using local fallback:", err);
     return fallback;
   }
 }
@@ -119,47 +113,31 @@ export async function searchCompanies(
   limit = 20,
   offset = 0
 ): Promise<CompanyListItem[]> {
-  return safeRequest(
-    () =>
-      request<CompanyListItem[]>(
-        `/api/companies/search?q=${encodeURIComponent(q)}&limit=${limit}&offset=${offset}`
-      ),
-    searchMockCompanies(q)
+  return request<CompanyListItem[]>(
+    `/api/companies/search?q=${encodeURIComponent(q)}&limit=${limit}&offset=${offset}`
   );
 }
 
 export async function getCompany(id: number): Promise<Company | null> {
-  return safeRequest(
-    () => request<Company>(`/api/companies/${id}`),
-    MOCK_COMPANIES.find((c) => c.id === id) || null
-  );
+  return request<Company>(`/api/companies/${id}`);
 }
 
 export async function getCompanyDimensions(
   id: number
 ): Promise<CompanyDimensionsResponse | null> {
-  return safeRequest(
-    () => request<CompanyDimensionsResponse>(`/api/companies/${id}/dimensions`),
-    MOCK_DIMENSIONS[id] || null
-  );
+  return request<CompanyDimensionsResponse>(`/api/companies/${id}/dimensions`);
 }
 
 export async function getCompanySummary(
   id: number
 ): Promise<CompanySummaryResponse | null> {
-  return safeRequest(
-    () => request<CompanySummaryResponse>(`/api/companies/${id}/summary`),
-    buildMockSummary(id)
-  );
+  return request<CompanySummaryResponse>(`/api/companies/${id}/summary`);
 }
 
 export async function getCompanyAnalysis(
   id: number
 ): Promise<CompanyAnalysisResponse | null> {
-  return safeRequest(
-    () => request<CompanyAnalysisResponse>(`/api/companies/${id}/analysis`),
-    buildMockAnalysis(id)
-  );
+  return request<CompanyAnalysisResponse>(`/api/companies/${id}/analysis`);
 }
 
 export async function getCompanyReviews(
@@ -167,26 +145,18 @@ export async function getCompanyReviews(
   limit = 20,
   offset = 0
 ): Promise<Review[]> {
-  return safeRequest(
-    () =>
-      request<Review[]>(
-        `/api/companies/${id}/reviews?limit=${limit}&offset=${offset}`
-      ),
-    (MOCK_REVIEWS[id] || []).filter((r) => r.audit_status === "approved")
+  return request<Review[]>(
+    `/api/companies/${id}/reviews?limit=${limit}&offset=${offset}`
   );
 }
 
 export async function compareCompanies(
   companyIds: number[]
 ): Promise<CompareResponse | null> {
-  return safeRequest(
-    () =>
-      request<CompareResponse>("/api/companies/compare", {
-        method: "POST",
-        data: { company_ids: companyIds },
-      }),
-    buildMockCompare(companyIds)
-  );
+  return request<CompareResponse>("/api/companies/compare", {
+    method: "POST",
+    data: { company_ids: companyIds },
+  });
 }
 
 // ============ 认证 ============

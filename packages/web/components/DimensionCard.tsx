@@ -5,14 +5,16 @@ import {
   Clock,
   TrendingUp,
   MessageSquare,
-  LucideIcon,
+  type LucideIcon,
 } from "lucide-react";
 import {
-  DimensionData,
+  type DimensionData,
   DIMENSIONS_META,
   DIMENSION_LABELS,
   DIMENSION_ACCENT,
   LEVEL_COLORS,
+  METRIC_LABELS,
+  formatMetricValue,
 } from "@/lib/types";
 
 interface DimensionCardProps {
@@ -28,19 +30,18 @@ const ICON_MAP: Record<string, LucideIcon> = {
   "message-square": MessageSquare,
 };
 
-function formatMetricValue(value: unknown): string {
-  if (value === null || value === undefined) return "暂无数据";
-  if (typeof value === "boolean") return value ? "是" : "否";
-  if (typeof value === "number")
-    return Number.isInteger(value) ? String(value) : value.toFixed(2);
-  if (Array.isArray(value)) return value.join("、") || "无";
-  if (typeof value === "object") return JSON.stringify(value);
-  return String(value);
+/** #f59e0b -> rgba(245, 158, 11, alpha) */
+function hexToRgba(hex: string, alpha: number): string {
+  const m = hex.replace("#", "");
+  const full = m.length === 3 ? m.split("").map((c) => c + c).join("") : m;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function formatMetricKey(key: string): string {
-  const spaced = key.replace(/_/g, " ");
-  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  return METRIC_LABELS[key] ?? key;
 }
 
 export default function DimensionCard({ dimension }: DimensionCardProps) {
@@ -51,6 +52,7 @@ export default function DimensionCard({ dimension }: DimensionCardProps) {
   const colors = LEVEL_COLORS[dimension.level];
   const metrics = dimension.metrics || {};
   const Icon = meta ? ICON_MAP[meta.icon] : undefined;
+  const levelHex = colors.hex;
 
   return (
     <article
@@ -78,27 +80,35 @@ export default function DimensionCard({ dimension }: DimensionCardProps) {
         {dimension.summary || "暂无总结"}
       </p>
 
+      <div
+        className="rounded-lg p-3 mb-3 border-l-2"
+        style={{
+          backgroundColor: hexToRgba(levelHex, 0.08),
+          borderColor: levelHex,
+        }}
+      >
+        <p className="text-xs font-semibold mb-0.5" style={{ color: levelHex }}>
+          决策意义
+        </p>
+        <p className="text-sm text-foreground leading-relaxed">
+          {meta?.decisionMeaning || ""}
+        </p>
+      </div>
+
       {Object.keys(metrics).length > 0 && (
-        <ul className="space-y-2 text-sm">
+        <ul className="space-y-2.5">
           {Object.entries(metrics).map(([key, value]) => (
-            <li key={key} className="flex items-start justify-between gap-3">
-              <span className="text-muted-foreground">
+            <li key={key} className="flex items-start gap-2">
+              <span className="inline-flex items-center shrink-0 h-5 px-2 rounded text-xs font-medium bg-secondary text-muted-foreground mt-0.5">
                 {formatMetricKey(key)}
               </span>
-              <span className="font-medium text-foreground text-right">
+              <span className="text-sm font-medium text-foreground leading-relaxed flex-1 min-w-0">
                 {formatMetricValue(value)}
               </span>
             </li>
           ))}
         </ul>
       )}
-
-      <div className="mt-3 pt-3 border-t border-border">
-        <p className="text-xs text-muted-foreground">
-          <span className="font-medium text-foreground">决策意义：</span>
-          {meta?.decisionMeaning || ""}
-        </p>
-      </div>
     </article>
   );
 }

@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{ '--status-bar-height': statusBarHeight + 'px' }">
     <!-- 顶栏 -->
     <view class="topbar" @tap="goBack">
       <text class="back-text">‹ 返回</text>
@@ -37,7 +37,7 @@
       <!-- 用户名 -->
       <view class="input-group">
         <view class="input-box">
-          <text class="input-icon">&#xe61a;</text>
+          <Icon name="user" :size="36" color="#72727d" style="margin-right: 16rpx" />
           <input
             class="input-field"
             type="text"
@@ -51,7 +51,7 @@
       <!-- 密码 -->
       <view class="input-group">
         <view class="input-box">
-          <text class="input-icon">&#xe61b;</text>
+          <Icon name="lock" :size="36" color="#72727d" style="margin-right: 16rpx" />
           <input
             class="input-field"
             :type="showPassword ? 'text' : 'password'"
@@ -59,16 +59,14 @@
             :placeholder="mode === 'register' ? '密码（至少 6 位）' : '密码'"
             :placeholder-style="'color: #9898a0'"
           />
-          <text class="input-eye" @tap="showPassword = !showPassword">
-            {{ showPassword ? '🙈' : '👁' }}
-          </text>
+          <view class="input-eye" @tap="showPassword = !showPassword"><Icon :name="showPassword ? 'eye-off' : 'eye'" :size="36" color="#72727d" /></view>
         </view>
       </view>
 
       <!-- 确认密码（注册） -->
       <view v-if="mode === 'register'" class="input-group">
         <view class="input-box">
-          <text class="input-icon">&#xe61b;</text>
+          <Icon name="lock" :size="36" color="#72727d" style="margin-right: 16rpx" />
           <input
             class="input-field"
             :type="showPassword ? 'text' : 'password'"
@@ -121,7 +119,9 @@
 import { ref } from "vue";
 import { login, register } from "@/utils/api";
 import { setToken, Storage } from "@/utils/storage";
+import { getSystemLayout } from "@/utils/constants";
 
+const { statusBarHeight } = getSystemLayout();
 const mode = ref<"login" | "register">("login");
 const username = ref("");
 const password = ref("");
@@ -200,7 +200,7 @@ function goHome() {
 }
 
 .topbar {
-  padding: 80rpx 32rpx 32rpx;
+  padding: calc(var(--status-bar-height) + 80rpx) 32rpx 32rpx;
 }
 
 .back-text {
@@ -267,7 +267,7 @@ function goHome() {
 .input-box {
   display: flex; align-items: center;
   height: 96rpx; padding: 0 32rpx;
-  border: 1rpx solid #efeff1; border-radius: 16rpx;
+  border: 1rpx solid #e4e4e7; border-radius: 16rpx;
   background: #ffffff;
 }
 

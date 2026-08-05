@@ -1,12 +1,12 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{ '--status-bar-height': statusBarHeight + 'px', '--tabbar-height': tabbarHeight + 'px' }">
     <!-- 用户信息卡 -->
     <view class="user-section">
       <view class="user-card">
         <!-- 未登录 -->
         <view v-if="!isLoggedIn" class="not-logged-in">
           <view class="avatar-placeholder">
-            <text class="avatar-icon">&#xe60b;</text>
+            <Icon name="user" :size="64" color="#9333ea" />
           </view>
           <view class="login-prompt">
             <text class="login-prompt-title">开启你的求职决策</text>
@@ -49,22 +49,22 @@
       <text class="section-label">我的工具</text>
       <view class="tools-grid">
         <view class="tool-item" @tap="showComingSoon">
-          <text class="tool-icon" style="color: #15803d">&#xe60c;</text>
+          <Icon name="star" :size="44" color="#15803d" />
           <text class="tool-value">{{ favCount }}</text>
           <text class="tool-label">收藏</text>
         </view>
         <view class="tool-item" @tap="goCompare">
-          <text class="tool-icon" style="color: #0369a1">&#xe60d;</text>
+          <Icon name="scale" :size="44" color="#0369a1" />
           <text class="tool-value">0</text>
           <text class="tool-label">对比</text>
         </view>
         <view class="tool-item" @tap="showComingSoon">
-          <text class="tool-icon" style="color: #b45309">&#xe60e;</text>
+          <Icon name="clipboard" :size="44" color="#b45309" />
           <text class="tool-value">{{ historyCount }}</text>
           <text class="tool-label">浏览</text>
         </view>
         <view class="tool-item" @tap="showComingSoon">
-          <text class="tool-icon" style="color: #9333ea">&#xe60f;</text>
+          <Icon name="edit" :size="44" color="#9333ea" />
           <text class="tool-value">{{ reviewCount }}</text>
           <text class="tool-label">评价</text>
         </view>
@@ -77,7 +77,7 @@
       <view class="menu-card">
         <view class="menu-item" @tap="showComingSoon">
           <view class="menu-icon-box" style="background: #e0f2fe">
-            <text class="menu-icon" style="color: #0369a1">&#xe614;</text>
+            <Icon name="lock" :size="32" color="#0369a1" />
           </view>
           <text class="menu-label">账号安全</text>
           <text class="menu-value">未绑定</text>
@@ -91,7 +91,7 @@
       <view class="menu-card">
         <view class="menu-item" @tap="showComingSoon">
           <view class="menu-icon-box" style="background: #efeff1">
-            <text class="menu-icon" style="color: #55555e">&#xe615;</text>
+            <Icon name="moon" :size="32" color="#55555e" />
           </view>
           <text class="menu-label">深色模式</text>
           <text class="menu-value">跟随系统</text>
@@ -99,7 +99,7 @@
         </view>
         <view class="menu-item border-top" @tap="showComingSoon">
           <view class="menu-icon-box" style="background: #fef3c7">
-            <text class="menu-icon" style="color: #b45309">&#xe616;</text>
+            <Icon name="bell" :size="32" color="#b45309" />
           </view>
           <text class="menu-label">消息通知</text>
           <text class="menu-value">已开启</text>
@@ -107,14 +107,14 @@
         </view>
         <view class="menu-item border-top" @tap="showComingSoon">
           <view class="menu-icon-box" style="background: #dcfce7">
-            <text class="menu-icon" style="color: #15803d">&#xe617;</text>
+            <Icon name="info" :size="32" color="#15803d" />
           </view>
           <text class="menu-label">关于真职</text>
           <text class="menu-arrow">></text>
         </view>
         <view class="menu-item border-top" @tap="showComingSoon">
           <view class="menu-icon-box" style="background: #f3e8ff">
-            <text class="menu-icon" style="color: #9333ea">&#xe618;</text>
+            <Icon name="chat" :size="32" color="#9333ea" />
           </view>
           <text class="menu-label">帮助与反馈</text>
           <text class="menu-arrow">></text>
@@ -127,7 +127,7 @@
       <view class="menu-card">
         <view class="menu-item" @tap="handleLogout">
           <view class="menu-icon-box" style="background: #fff1f2">
-            <text class="menu-icon" style="color: #e11d48">&#xe619;</text>
+            <Icon name="logout" :size="32" color="#e11d48" />
           </view>
           <text class="menu-label" style="color: #e11d48">退出登录</text>
         </view>
@@ -138,6 +138,7 @@
     <view v-if="toast" class="toast">
       <text class="toast-text">{{ toast }}</text>
     </view>
+    <TabBar current="profile" />
   </view>
 </template>
 
@@ -150,7 +151,9 @@ import {
   removeToken,
   Storage,
 } from "@/utils/storage";
+import { getSystemLayout } from "@/utils/constants";
 
+const { statusBarHeight, tabbarHeight } = getSystemLayout();
 const isLoggedIn = ref(false);
 const username = ref("");
 const bio = ref("");
@@ -173,6 +176,7 @@ onMounted(() => {
 });
 
 onShow(() => {
+  uni.hideTabBar();
   checkLogin();
   if (isLoggedIn.value) {
     loadFavorites();
@@ -242,18 +246,18 @@ function showToast(msg: string) {
 <style lang="scss" scoped>
 .page {
   min-height: 100vh;
-  background: #ffffff;
-  padding-bottom: 160rpx;
+  background: #f7f7f8;
+  padding-bottom: var(--tabbar-height);
 }
 
-.user-section { padding: 40rpx 32rpx 16rpx; }
+.user-section { padding: calc(var(--status-bar-height) + 40rpx) 32rpx 16rpx; }
 
 .user-card {
   background: #ffffff;
-  border: 1rpx solid #efeff1;
-  border-radius: 24rpx;
+  border: 1rpx solid #e4e4e7;
+  border-radius: 16px;
   padding: 40rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 
 .not-logged-in { display: flex; align-items: center; gap: 32rpx; }
@@ -297,7 +301,7 @@ function showToast(msg: string) {
 .login-btn-text { color: #ffffff; font-size: 28rpx; font-weight: 600; }
 .browse-btn {
   height: 80rpx; padding: 0 32rpx; border-radius: 16rpx;
-  border: 1rpx solid #efeff1; display: flex; align-items: center; justify-content: center;
+  border: 1rpx solid #e4e4e7; display: flex; align-items: center; justify-content: center;
 }
 .browse-btn-text { color: #18181b; font-size: 28rpx; font-weight: 500; }
 
@@ -305,8 +309,8 @@ function showToast(msg: string) {
 .section-label { display: block; font-size: 24rpx; font-weight: 600; color: #72727d; padding: 0 8rpx 16rpx; }
 .tools-grid {
   display: flex; justify-content: space-around;
-  background: #ffffff; border: 1rpx solid #efeff1; border-radius: 24rpx;
-  padding: 32rpx 16rpx; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  background: #ffffff; border: 1rpx solid #e4e4e7; border-radius: 16px;
+  padding: 32rpx 16rpx; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 .tool-item { display: flex; flex-direction: column; align-items: center; gap: 8rpx; flex: 1; }
 .tool-icon { font-size: 40rpx; }
@@ -315,8 +319,8 @@ function showToast(msg: string) {
 
 .menu-section { padding: 16rpx 32rpx; }
 .menu-card {
-  background: #ffffff; border: 1rpx solid #efeff1; border-radius: 24rpx;
-  overflow: hidden; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  background: #ffffff; border: 1rpx solid #e4e4e7; border-radius: 16px;
+  overflow: hidden; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 .menu-item {
   display: flex; align-items: center; gap: 24rpx;
@@ -333,7 +337,7 @@ function showToast(msg: string) {
 .menu-arrow { font-size: 28rpx; color: #9898a0; }
 
 .toast {
-  position: fixed; bottom: 200rpx; left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: calc(var(--tabbar-height) + 40rpx); left: 50%; transform: translateX(-50%);
   padding: 16rpx 32rpx; border-radius: 16rpx;
   background: #2a2a2f; z-index: 999;
 }

@@ -35,7 +35,6 @@ mobile/
 │   │   ├── api.ts             # API 请求层
 │   │   ├── types.ts           # TypeScript 类型
 │   │   ├── constants.ts       # 常量 & 六维配置
-│   │   ├── mockData.ts        # Mock 数据（后端离线时降级）
 │   │   └── storage.ts         # 跨端存储封装
 │   └── static/
 │       ├── tabbar/            # TabBar 图标

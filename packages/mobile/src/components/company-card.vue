@@ -2,7 +2,7 @@
   <view class="company-card" @tap="goDetail">
     <!-- Logo -->
     <view class="card-logo">
-      <text class="icon-building">&#xe609;</text>
+      <Icon name="building" :size="36" color="#72727d" />
     </view>
 
     <!-- 信息区 -->
@@ -10,7 +10,7 @@
       <view class="card-title-row">
         <text class="card-title">{{ company.name }}</text>
         <text v-if="score != null" class="card-score-badge">
-          {{ (score / 10).toFixed(1) }}
+          {{ score }}
         </text>
       </view>
       <text class="card-subtitle">
@@ -39,7 +39,7 @@
       :class="{ 'fav-active': favorited }"
       @tap.stop="onToggleFav"
     >
-      <text class="fav-icon" :class="{ 'fav-filled': favorited }">&#xe60a;</text>
+      <Icon :name="favorited ? 'heart-filled' : 'heart'" :size="36" :color="favorited ? '#f43f5e' : '#72727d'" />
     </view>
   </view>
 </template>
@@ -118,16 +118,16 @@ async function onToggleFav() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .company-card {
   display: flex;
   align-items: center;
   gap: 24rpx;
   background: #ffffff;
-  border: 1rpx solid #efeff1;
-  border-radius: 16rpx;
+  border: 1rpx solid #e4e4e7;
+  border-radius: 16px;
   padding: 24rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 
 .card-logo {

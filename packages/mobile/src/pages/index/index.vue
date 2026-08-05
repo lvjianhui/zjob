@@ -1,12 +1,12 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{ '--status-bar-height': statusBarHeight + 'px', '--tabbar-height': tabbarHeight + 'px' }">
     <!-- Hero + 搜索框 -->
     <view class="hero-section">
       <text class="hero-title">入职前，先看清楚这家公司</text>
       <text class="hero-subtitle">六维交叉验证 · 红绿灯预警 · 真实时薪</text>
 
       <view class="search-bar" @tap="goSearch">
-        <text class="search-icon">&#xe610;</text>
+        <Icon name="search" :size="36" color="#72727d" style="margin-right: 16rpx" />
         <text class="search-placeholder">搜索公司名称，如 特斯拉、立讯精密</text>
         <view class="search-btn">
           <text class="search-btn-text">搜索</text>
@@ -17,7 +17,7 @@
     <!-- 热门公司推荐 -->
     <view class="section">
       <view class="section-header">
-        <text class="section-icon" style="color: #f59e0b">&#xe611;</text>
+        <Icon name="fire" :size="36" color="#f59e0b" />
         <text class="section-title">热门公司推荐</text>
         <text
           v-if="results.length > 0"
@@ -74,6 +74,7 @@
         </view>
       </view>
     </view>
+    <TabBar current="index" />
   </view>
 </template>
 
@@ -82,9 +83,10 @@ import { ref, onMounted } from "vue";
 import { onShow } from "@dcloudio/uni-app";
 import { searchCompanies, getCompanySummary } from "@/utils/api";
 import type { CompanyListItem, CompanySummaryResponse } from "@/utils/types";
-import { DIMENSIONS_META, DIMENSION_ACCENT } from "@/utils/constants";
+import { DIMENSIONS_META, DIMENSION_ACCENT, getSystemLayout } from "@/utils/constants";
 import CompanyCard from "@/components/company-card.vue";
 
+const { statusBarHeight, tabbarHeight } = getSystemLayout();
 const results = ref<CompanyListItem[]>([]);
 const summaryMap = ref<Record<number, CompanySummaryResponse>>({});
 const loading = ref(true);
@@ -112,7 +114,7 @@ onMounted(() => {
 });
 
 onShow(() => {
-  // 页面重新可见时刷新
+  uni.hideTabBar();
   if (results.value.length === 0) {
     loadData();
   }
@@ -134,11 +136,11 @@ function getAccentText(accent: string): string {
 <style lang="scss" scoped>
 .page {
   padding: 0 32rpx;
-  padding-bottom: 160rpx;
+  padding-bottom: var(--tabbar-height);
 }
 
 .hero-section {
-  padding: 80rpx 0 64rpx;
+  padding: calc(var(--status-bar-height) + 80rpx) 0 64rpx;
   text-align: center;
 }
 
@@ -161,7 +163,7 @@ function getAccentText(accent: string): string {
   display: flex;
   align-items: center;
   background: #ffffff;
-  border: 1rpx solid #efeff1;
+  border: 1rpx solid #e4e4e7;
   border-radius: 999rpx;
   padding: 0 8rpx 0 40rpx;
   height: 96rpx;
@@ -176,8 +178,12 @@ function getAccentText(accent: string): string {
 
 .search-placeholder {
   flex: 1;
+  min-width: 0;
   font-size: 28rpx;
   color: #9898a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .search-btn {
@@ -237,8 +243,8 @@ function getAccentText(accent: string): string {
 
 .skeleton-item {
   height: 128rpx;
-  border-radius: 16rpx;
-  background: #f7f7f8;
+  border-radius: 16px;
+  background: #efeff1;
   animation: pulse 1.5s ease-in-out infinite;
 }
 
@@ -266,10 +272,10 @@ function getAccentText(accent: string): string {
 .dim-card {
   width: calc(50% - 12rpx);
   background: #ffffff;
-  border: 1rpx solid #efeff1;
-  border-radius: 24rpx;
+  border: 1rpx solid #e4e4e7;
+  border-radius: 16px;
   padding: 32rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
 }
